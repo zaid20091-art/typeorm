@@ -17,11 +17,11 @@ pr_compliances:
       success_criteria: "All identifiers follow the established naming patterns (camelCase, PascalCase, snake_case, etc.)"
       failure_criteria: "Inconsistent or non-standard naming that deviates from project conventions"
 
-    - title: "Prefer optional chaining over non-null assertions in tests"
+    - title: "Prefer optional chaining over non-null assertions in test assertions"
       compliance_label: true
-      objective: "Tests should use optional chaining (?.) instead of non-null assertions (!) after null checks."
-      success_criteria: "Test assertions use expect(result).to.not.be.null followed by result?.property and result?.items ?? [] for iteration."
-      failure_criteria: "Tests use result!.property or result!.items non-null assertions after null checks."
+      objective: "Test property access in assertions should use optional chaining (?.) instead of non-null assertions (!). Non-null assertions remain acceptable for mutation or passing values to functions (e.g. repo.save(x!))."
+      success_criteria: "Test assertions verify non-null (expect(x).to.not.be.null or expect(x).not.to.be.null) then access properties with optional chaining (x?.property). Iteration asserts array length before looping rather than defaulting to an empty array."
+      failure_criteria: "Tests use result!.property for read-only access in assertions where optional chaining would suffice."
 
     - title: "Remove AI-generated noise"
       compliance_label: true
