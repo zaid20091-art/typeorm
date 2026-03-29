@@ -132,8 +132,13 @@ jobs:
       - uses: ./.github/actions/setup-node
         with:
           working-directory: packages/codemod
-      - run: pnpm test
+      - run: pnpm exec c8 pnpm test
         working-directory: packages/codemod
+      - uses: SonarSource/sonarqube-scan-action@v7
+        with:
+          projectBaseDir: packages/codemod
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   coverage:
     if: contains(needs.detect-changes.outputs.changes, 'src-or-tests')
@@ -141,9 +146,6 @@ jobs:
     needs: [detect-changes, tests-linux, tests-windows]
     steps:
       - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
       - uses: actions/download-artifact@v7
         with:
           pattern: coverage-*
