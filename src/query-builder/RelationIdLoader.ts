@@ -205,42 +205,6 @@ export class RelationIdLoader {
         })
     }
 
-    /**
-     * Loads relation ids of the given entities and maps them into the given entity property.
-     async loadManyToManyRelationIdsAndMap(
-     relation: RelationMetadata,
-     entityOrEntities: ObjectLiteral|ObjectLiteral[],
-     mapToEntityOrEntities: ObjectLiteral|ObjectLiteral[],
-     propertyName: string
-     ): Promise<void> {
-        const relationIds = await this.loadManyToManyRelationIds(relation, entityOrEntities, mapToEntityOrEntities);
-        const mapToEntities = mapToEntityOrEntities instanceof Array ? mapToEntityOrEntities : [mapToEntityOrEntities];
-        const junctionMetadata = relation.junctionEntityMetadata!;
-        const mainAlias = junctionMetadata.name;
-        const columns = relation.isOwning ? junctionMetadata.inverseColumns : junctionMetadata.ownerColumns;
-        const inverseColumns = relation.isOwning ? junctionMetadata.ownerColumns : junctionMetadata.inverseColumns;
-        mapToEntities.forEach(mapToEntity => {
-            mapToEntity[propertyName] = [];
-            relationIds.forEach(relationId => {
-                const match = inverseColumns.every(column => {
-                    return column.referencedColumn!.getEntityValue(mapToEntity) === relationId[mainAlias + "_" + column.propertyName];
-                });
-                if (match) {
-                    if (columns.length === 1) {
-                        mapToEntity[propertyName].push(relationId[mainAlias + "_" + columns[0].propertyName]);
-                    } else {
-                        const value = {};
-                        columns.forEach(column => {
-                            column.referencedColumn!.setEntityValue(value, relationId[mainAlias + "_" + column.propertyName]);
-                        });
-                        mapToEntity[propertyName].push(value);
-                    }
-                }
-            });
-        });
-    }
-     */
-
     // -------------------------------------------------------------------------
     // Protected Methods
     // -------------------------------------------------------------------------

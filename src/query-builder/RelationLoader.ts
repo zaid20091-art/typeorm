@@ -79,8 +79,9 @@ export class RelationLoader {
      *
      * (ow) post.category<=>category.post
      * loaded: category from post
-     * example: SELECT category.id AS category_id, category.name AS category_name FROM category category
-     *              INNER JOIN post Post ON Post.category=category.id WHERE Post.id=1
+     * @example
+     * SELECT category.id AS category_id, category.name AS category_name FROM category category
+     *     INNER JOIN post Post ON Post.category=category.id WHERE Post.id=1
      * @param relation
      * @param entityOrEntities
      * @param queryRunner
