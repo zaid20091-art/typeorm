@@ -11,7 +11,7 @@ import { Comment } from "./entities"
 describe("github issues > #5919 Caching won't work with replication enabled", () => {
     let dataSources: DataSource[]
 
-    beforeEach(async () => {
+    before(async () => {
         dataSources = await createTestingConnections({
             entities: [Comment],
             schemaCreate: true,
@@ -19,9 +19,9 @@ describe("github issues > #5919 Caching won't work with replication enabled", ()
             cache: true,
             enabledDrivers: ["postgres"],
         })
-        await reloadTestingDatabases(dataSources)
     })
-    afterEach(() => closeTestingConnections(dataSources))
+    beforeEach(() => reloadTestingDatabases(dataSources))
+    after(() => closeTestingConnections(dataSources))
 
     it("should not another queryRunner for cache with a given masterQueryRunner", () =>
         Promise.all(

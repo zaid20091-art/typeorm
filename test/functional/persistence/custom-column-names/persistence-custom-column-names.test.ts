@@ -35,7 +35,7 @@ describe("persistence > custom-column-names", function () {
     let postRepository: Repository<Post>
     let categoryRepository: Repository<Category>
     let metadataRepository: Repository<CategoryMetadata>
-    before(function () {
+    before(() => {
         if (!dataSource) return
         postRepository = dataSource.getRepository(Post)
         categoryRepository = dataSource.getRepository(Category)
@@ -52,40 +52,29 @@ describe("persistence > custom-column-names", function () {
 
         before(reloadDatabase)
 
-        // save a new category
-        before(function () {
+        before(async () => {
             newCategory = categoryRepository.create()
             newCategory.name = "Animals"
-            return categoryRepository.save(newCategory)
+            await categoryRepository.save(newCategory)
         })
 
-        // save a new post
-        before(function () {
+        before(async () => {
             newPost = postRepository.create()
             newPost.title = "All about animals"
-            return postRepository.save(newPost)
+            await postRepository.save(newPost)
         })
 
-        // attach category to post and save it
-        before(function () {
+        before(async () => {
             newPost.category = newCategory
-            return postRepository.save(newPost)
+            await postRepository.save(newPost)
         })
 
-        // load a post
-        before(function () {
-            return postRepository
-                .findOne({
-                    where: {
-                        id: 1,
-                    },
-                    relations: {
-                        category: true,
-                    },
-                })
-                .then((post) => {
-                    loadedPost = post!
-                })
+        before(async () => {
+            const post = await postRepository.findOne({
+                where: { id: 1 },
+                relations: { category: true },
+            })
+            loadedPost = post!
         })
 
         it("should contain attached category", function () {
@@ -101,35 +90,25 @@ describe("persistence > custom-column-names", function () {
 
         before(reloadDatabase)
 
-        // save a new category
-        before(function () {
+        before(async () => {
             newCategory = categoryRepository.create()
             newCategory.name = "Animals"
-            return categoryRepository.save(newCategory)
+            await categoryRepository.save(newCategory)
         })
 
-        // save a new post and attach category
-        before(function () {
+        before(async () => {
             newPost = postRepository.create()
             newPost.title = "All about animals"
             newPost.category = newCategory
-            return postRepository.save(newPost)
+            await postRepository.save(newPost)
         })
 
-        // load a post
-        before(function () {
-            return postRepository
-                .findOne({
-                    where: {
-                        id: 1,
-                    },
-                    relations: {
-                        category: true,
-                    },
-                })
-                .then((post) => {
-                    loadedPost = post!
-                })
+        before(async () => {
+            const post = await postRepository.findOne({
+                where: { id: 1 },
+                relations: { category: true },
+            })
+            loadedPost = post!
         })
 
         it("should contain attached category", function () {
@@ -145,30 +124,21 @@ describe("persistence > custom-column-names", function () {
 
         before(reloadDatabase)
 
-        // save a new category, post and attach category to post
-        before(function () {
+        before(async () => {
             newCategory = categoryRepository.create()
             newCategory.name = "Animals"
             newPost = postRepository.create()
             newPost.title = "All about animals"
             newPost.category = newCategory
-            return postRepository.save(newPost)
+            await postRepository.save(newPost)
         })
 
-        // load a post
-        before(function () {
-            return postRepository
-                .findOne({
-                    where: {
-                        id: 1,
-                    },
-                    relations: {
-                        category: true,
-                    },
-                })
-                .then((post) => {
-                    loadedPost = post!
-                })
+        before(async () => {
+            const post = await postRepository.findOne({
+                where: { id: 1 },
+                relations: { category: true },
+            })
+            loadedPost = post!
         })
 
         it("should contain attached category", function () {
@@ -187,50 +157,36 @@ describe("persistence > custom-column-names", function () {
 
         before(reloadDatabase)
 
-        // save a new post
-        before(function () {
+        before(async () => {
             newPost = postRepository.create()
             newPost.title = "All about animals"
-            return postRepository.save(newPost)
+            await postRepository.save(newPost)
         })
 
-        // save a new category
-        before(function () {
+        before(async () => {
             newCategory = categoryRepository.create()
             newCategory.name = "Animals"
-            return categoryRepository.save(newCategory)
+            await categoryRepository.save(newCategory)
         })
 
-        // save a new metadata
-        before(function () {
+        before(async () => {
             newMetadata = metadataRepository.create()
             newMetadata.keyword = "animals"
-            return metadataRepository.save(newMetadata)
+            await metadataRepository.save(newMetadata)
         })
 
-        // attach metadata to category and category to post and save it
-        before(function () {
+        before(async () => {
             newCategory.metadata = newMetadata
             newPost.category = newCategory
-            return postRepository.save(newPost)
+            await postRepository.save(newPost)
         })
 
-        // load a post
-        before(function () {
-            return postRepository
-                .findOne({
-                    where: {
-                        id: 1,
-                    },
-                    relations: {
-                        category: {
-                            metadata: true,
-                        },
-                    },
-                })
-                .then((post) => {
-                    loadedPost = post!
-                })
+        before(async () => {
+            const post = await postRepository.findOne({
+                where: { id: 1 },
+                relations: { category: { metadata: true } },
+            })
+            loadedPost = post!
         })
 
         it("should contain attached category and metadata in the category", function () {
@@ -251,45 +207,32 @@ describe("persistence > custom-column-names", function () {
 
         before(reloadDatabase)
 
-        // save a new post
-        before(function () {
+        before(async () => {
             newPost = postRepository.create()
             newPost.title = "All about animals"
-            return postRepository.save(newPost)
+            await postRepository.save(newPost)
         })
 
-        // save a new category and new metadata
-        before(function () {
+        before(async () => {
             newMetadata = metadataRepository.create()
             newMetadata.keyword = "animals"
             newCategory = categoryRepository.create()
             newCategory.name = "Animals"
             newCategory.metadata = newMetadata
-            return categoryRepository.save(newCategory)
+            await categoryRepository.save(newCategory)
         })
 
-        // attach metadata to category and category to post and save it
-        before(function () {
+        before(async () => {
             newPost.category = newCategory
-            return postRepository.save(newPost)
+            await postRepository.save(newPost)
         })
 
-        // load a post
-        before(function () {
-            return postRepository
-                .findOne({
-                    where: {
-                        id: 1,
-                    },
-                    relations: {
-                        category: {
-                            metadata: true,
-                        },
-                    },
-                })
-                .then((post) => {
-                    loadedPost = post!
-                })
+        before(async () => {
+            const post = await postRepository.findOne({
+                where: { id: 1 },
+                relations: { category: { metadata: true } },
+            })
+            loadedPost = post!
         })
 
         it("should contain attached category and metadata in the category", function () {
