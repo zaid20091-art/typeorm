@@ -15,8 +15,8 @@ import type { RelationMetadata } from "../../metadata/RelationMetadata"
  * // If user adds categories into the post and saves post we need to bind them.
  * // This operation requires updating the category table since it's the owner of
  * // the relation and contains a join column.
+ * \@OneToMany(type => Category, category => category.post) categories: Category[]
  *
- * @OneToMany(type => Category, category => category.post) categories: Category[]
  */
 export class OneToManySubjectBuilder {
     // ---------------------------------------------------------------------

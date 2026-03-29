@@ -10,8 +10,8 @@ import type { RelationMetadata } from "../../metadata/RelationMetadata"
  * // Post owns a many-to-many relation with Category in the property called "categories".
  * // If the user adds categories into the post and saves post we need to bind them.
  * // This operation requires updating the junction table.
+ * \@ManyToMany(type => Category, category => category.posts) categories: Category[]
  *
- * @ManyToMany(type => Category, category => category.posts) categories: Category[]
  */
 export class ManyToManySubjectBuilder {
     // ---------------------------------------------------------------------

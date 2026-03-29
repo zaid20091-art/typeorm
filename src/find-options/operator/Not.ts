@@ -5,7 +5,7 @@ import { FindOperator } from "../FindOperator"
  * Used to negate expression.
  *
  * @example
- * { title: not("hello") }
+ * { title: Not("hello") }
  *
  * @param value
  */

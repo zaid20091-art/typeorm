@@ -14,8 +14,8 @@ import type { RelationMetadata } from "../../metadata/RelationMetadata"
  * // If user sets a category into the post and saves post we need to bind them.
  * // This operation requires updating the category table since it's the owner of
  * // the relation and contains a join column.
+ * \@OneToOne(type => Category, category => category.post) category: Category
  *
- * @OneToOne(type => Category, category => category.post) category: Category
  */
 export class OneToOneInverseSideSubjectBuilder {
     // ---------------------------------------------------------------------
