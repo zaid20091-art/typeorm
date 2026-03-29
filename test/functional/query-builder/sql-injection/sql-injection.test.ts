@@ -198,6 +198,24 @@ describe("query builder > sql injection", () => {
                                 "post.id": "ASC; DELETE FROM post;" as any,
                             }),
                     ).to.throw(/Invalid order direction/)
+                    await verifyIntegrity(dataSource)()
+                }),
+            ))
+
+        it("should reject invalid order direction in nested OrderByCondition", () =>
+            Promise.all(
+                dataSources.map(async (dataSource) => {
+                    expect(() =>
+                        dataSource
+                            .getRepository(Post)
+                            .createQueryBuilder("post")
+                            .orderBy({
+                                "post.id": {
+                                    order: "ASC; DELETE FROM post;" as any,
+                                } as any,
+                            }),
+                    ).to.throw(/Invalid order direction/)
+                    await verifyIntegrity(dataSource)()
                 }),
             ))
 
@@ -215,6 +233,7 @@ describe("query builder > sql injection", () => {
                                 },
                             }),
                     ).to.throw(/Invalid nulls option/)
+                    await verifyIntegrity(dataSource)()
                 }),
             ))
 
@@ -389,16 +408,12 @@ describe("query builder > sql injection", () => {
             it(`should prevent injection with: ${malicious}`, () =>
                 Promise.all(
                     dataSources.map(async (dataSource) => {
-                        try {
-                            const result = await dataSource
-                                .getRepository(Post)
-                                .findOne({
-                                    where: { name: malicious },
-                                })
-                            expect(result).to.be.null
-                        } catch {
-                            // some drivers reject certain byte sequences
-                        }
+                        const result = await dataSource
+                            .getRepository(Post)
+                            .findOne({
+                                where: { name: malicious },
+                            })
+                        expect(result).to.be.null
                         await verifyIntegrity(dataSource)()
                     }),
                 ))

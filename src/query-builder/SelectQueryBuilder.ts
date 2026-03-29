@@ -1477,21 +1477,12 @@ export class SelectQueryBuilder<Entity extends ObjectLiteral>
         }
 
         if (typeof sort === "object") {
-            for (const key of Object.keys(sort)) {
-                if (key.includes(";"))
-                    throw new TypeORMError(
-                        `Semicolons are not allowed in orderBy() to prevent SQL injection. Use parameter binding instead.`,
-                    )
-            }
             this.validateOrderByCondition(sort)
             this.expressionMap.orderBys = sort as OrderByCondition
             return this
         }
 
-        if (sort.includes(";"))
-            throw new TypeORMError(
-                `Semicolons are not allowed in orderBy() to prevent SQL injection. Use parameter binding instead.`,
-            )
+        this.assertNoSemicolon(sort, "orderBy sort key")
 
         this.expressionMap.orderBys = nulls
             ? { [sort as string]: { order, nulls } }
@@ -1524,10 +1515,7 @@ export class SelectQueryBuilder<Entity extends ObjectLiteral>
                 `SelectQueryBuilder.addOrderBy "nulls" can accept only "NULLS FIRST" and "NULLS LAST" values.`,
             )
 
-        if (sort.includes(";"))
-            throw new TypeORMError(
-                `Semicolons are not allowed in addOrderBy() to prevent SQL injection. Use parameter binding instead.`,
-            )
+        this.assertNoSemicolon(sort, "orderBy sort key")
 
         if (nulls) {
             this.expressionMap.orderBys[sort] = { order, nulls }
