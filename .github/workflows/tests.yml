@@ -152,11 +152,6 @@ jobs:
           pattern: coverage-*
           path: coverage-parts/
 
-      - name: Merge coverage reports
-        run: |
-          mkdir -p coverage
-          npx lcov-result-merger "coverage-parts/**/lcov.info" coverage/lcov.info
-
       - uses: SonarSource/sonarqube-scan-action@v7
         if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
         env:
