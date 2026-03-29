@@ -51,6 +51,7 @@ export class EntityManager {
 
     /**
      * DataSource used by this entity manager.
+     *
      * @deprecated since 1.0.0. Use {@link dataSource} instance instead.
      */
     get connection(): DataSource {
@@ -121,6 +122,7 @@ export class EntityManager {
     /**
      * Wraps given function execution (and all operations made there) in a transaction.
      * All database operations must be executed using provided entity manager.
+     *
      * @param isolationOrRunInTransaction
      * @param runInTransactionParam
      */
@@ -173,6 +175,7 @@ export class EntityManager {
 
     /**
      * Executes raw SQL query and returns raw database results.
+     *
      * @param query
      * @param parameters
      * @see [Official docs](https://typeorm.io/docs/Working%20with%20Entity%20Manager/entity-manager-api/) for examples.
@@ -222,6 +225,7 @@ export class EntityManager {
 
     /**
      * Creates a new query builder that can be used to build a SQL query.
+     *
      * @param entityClass
      * @param alias
      * @param queryRunner
@@ -258,6 +262,7 @@ export class EntityManager {
 
     /**
      * Checks if entity has an id by its Function type or schema name.
+     *
      * @param targetOrEntity
      * @param maybeEntity
      */
@@ -281,6 +286,7 @@ export class EntityManager {
 
     /**
      * Gets entity mixed id.
+     *
      * @param targetOrEntity
      * @param maybeEntity
      */
@@ -313,6 +319,7 @@ export class EntityManager {
     /**
      * Creates a new entity instance or instances.
      * Can copy properties from the given object into new entities.
+     *
      * @param entityClass
      * @param plainObjectOrObjects
      */
@@ -341,6 +348,7 @@ export class EntityManager {
 
     /**
      * Merges two entities into one new entity.
+     *
      * @param entityClass
      * @param mergeIntoEntity
      * @param entityLikes
@@ -367,6 +375,7 @@ export class EntityManager {
      * it loads it (and everything related to it), replaces all values with the new ones from the given object
      * and returns this new entity. This new entity is actually a loaded from the db entity with all properties
      * replaced from the new object.
+     *
      * @param entityClass
      * @param entityLike
      */
@@ -446,6 +455,7 @@ export class EntityManager {
 
     /**
      * Saves a given entity in the database.
+     *
      * @param targetOrEntity
      * @param maybeEntityOrOptions
      * @param maybeOptions
@@ -519,6 +529,7 @@ export class EntityManager {
 
     /**
      * Removes a given entity from the database.
+     *
      * @param targetOrEntity
      * @param maybeEntityOrOptions
      * @param maybeOptions
@@ -593,6 +604,7 @@ export class EntityManager {
 
     /**
      * Records the delete date of one or many given entities.
+     *
      * @param targetOrEntity
      * @param maybeEntityOrOptions
      * @param maybeOptions
@@ -669,6 +681,7 @@ export class EntityManager {
 
     /**
      * Recovers one or many given entities.
+     *
      * @param targetOrEntity
      * @param maybeEntityOrOptions
      * @param maybeOptions
@@ -718,6 +731,7 @@ export class EntityManager {
      * Executes fast and efficient INSERT query.
      * Does not check if entity exist in the database, so query will fail if duplicate entity is being inserted.
      * You can execute bulk inserts using this method.
+     *
      * @param target
      * @param entity
      */
@@ -811,6 +825,7 @@ export class EntityManager {
      * Executes fast and efficient UPDATE query.
      * Does not check if entity exist in the database.
      * Condition(s) cannot be empty.
+     *
      * @param target
      * @param criteria
      * @param partialEntity
@@ -875,6 +890,7 @@ export class EntityManager {
      * Executes fast and efficient UPDATE query without WHERE clause.
      *
      * WARNING! This method updates ALL rows in the target table.
+     *
      * @param target
      * @param partialEntity
      * @param options
@@ -899,6 +915,7 @@ export class EntityManager {
      * Executes fast and efficient DELETE query.
      * Does not check if entity exist in the database.
      * Condition(s) cannot be empty.
+     *
      * @param targetOrEntity
      * @param criteria
      */
@@ -949,6 +966,7 @@ export class EntityManager {
      * Executes fast and efficient DELETE query without WHERE clause.
      *
      * WARNING! This method deletes ALL rows in the target table.
+     *
      * @param targetOrEntity
      */
     deleteAll<Entity extends ObjectLiteral>(
@@ -963,6 +981,7 @@ export class EntityManager {
      * Executes fast and efficient UPDATE query.
      * Does not check if entity exist in the database.
      * Condition(s) cannot be empty.
+     *
      * @param targetOrEntity
      * @param criteria
      */
@@ -1013,6 +1032,7 @@ export class EntityManager {
      * Executes fast and efficient UPDATE query.
      * Does not check if entity exist in the database.
      * Condition(s) cannot be empty.
+     *
      * @param targetOrEntity
      * @param criteria
      */
@@ -1059,6 +1079,7 @@ export class EntityManager {
 
     /**
      * Checks whether any entity exists with the given options.
+     *
      * @param entityClass
      * @param options
      */
@@ -1074,6 +1095,7 @@ export class EntityManager {
 
     /**
      * Checks whether any entity exists with the given conditions.
+     *
      * @param entityClass
      * @param where
      */
@@ -1090,6 +1112,7 @@ export class EntityManager {
     /**
      * Counts entities that match given options.
      * Useful for pagination.
+     *
      * @param entityClass
      * @param options
      */
@@ -1106,6 +1129,7 @@ export class EntityManager {
     /**
      * Counts entities that match given conditions.
      * Useful for pagination.
+     *
      * @param entityClass
      * @param where
      */
@@ -1121,6 +1145,7 @@ export class EntityManager {
 
     /**
      * Return the SUM of a column
+     *
      * @param entityClass
      * @param columnName
      * @param where
@@ -1135,6 +1160,7 @@ export class EntityManager {
 
     /**
      * Return the AVG of a column
+     *
      * @param entityClass
      * @param columnName
      * @param where
@@ -1149,6 +1175,7 @@ export class EntityManager {
 
     /**
      * Return the MIN of a column
+     *
      * @param entityClass
      * @param columnName
      * @param where
@@ -1163,6 +1190,7 @@ export class EntityManager {
 
     /**
      * Return the MAX of a column
+     *
      * @param entityClass
      * @param columnName
      * @param where
@@ -1210,6 +1238,7 @@ export class EntityManager {
 
     /**
      * Finds entities that match given find options.
+     *
      * @param entityClass
      * @param options
      */
@@ -1228,6 +1257,7 @@ export class EntityManager {
 
     /**
      * Finds entities that match given find options.
+     *
      * @param entityClass
      * @param where
      */
@@ -1248,6 +1278,7 @@ export class EntityManager {
      * Finds entities that match given find options.
      * Also counts all entities that match given conditions,
      * but ignores pagination settings (from and take options).
+     *
      * @param entityClass
      * @param options
      */
@@ -1268,6 +1299,7 @@ export class EntityManager {
      * Finds entities that match given WHERE conditions.
      * Also counts all entities that match given conditions,
      * but ignores pagination settings (from and take options).
+     *
      * @param entityClass
      * @param where
      */
@@ -1287,6 +1319,7 @@ export class EntityManager {
     /**
      * Finds first entity by a given find options.
      * If entity was not found in the database - returns null.
+     *
      * @param entityClass
      * @param options
      */
@@ -1314,6 +1347,7 @@ export class EntityManager {
     /**
      * Finds first entity that matches given where condition.
      * If entity was not found in the database - returns null.
+     *
      * @param entityClass
      * @param where
      */
@@ -1335,6 +1369,7 @@ export class EntityManager {
     /**
      * Finds first entity by a given find options.
      * If entity was not found in the database - rejects with error.
+     *
      * @param entityClass
      * @param options
      */
@@ -1357,6 +1392,7 @@ export class EntityManager {
     /**
      * Finds first entity that matches given where condition.
      * If entity was not found in the database - rejects with error.
+     *
      * @param entityClass
      * @param where
      */
@@ -1380,6 +1416,7 @@ export class EntityManager {
      * Clears all the data from the given table (truncates/drops it).
      *
      * Note: this method uses TRUNCATE and may not work as you expect in transactions on some platforms.
+     *
      * @param entityClass
      * @param options
      * @param options.cascade
@@ -1402,6 +1439,7 @@ export class EntityManager {
 
     /**
      * Increments some column by provided value of the entities matched given conditions.
+     *
      * @param entityClass
      * @param conditions
      * @param propertyPath
@@ -1443,6 +1481,7 @@ export class EntityManager {
 
     /**
      * Decrements some column by provided value of the entities matched given conditions.
+     *
      * @param entityClass
      * @param conditions
      * @param propertyPath
@@ -1487,6 +1526,7 @@ export class EntityManager {
      * If single database connection mode is used, then repository is obtained from the
      * repository aggregator, where each repository is individually created for this entity manager.
      * When single database connection is not used, repository is being obtained from the connection.
+     *
      * @param target
      */
     getRepository<Entity extends ObjectLiteral>(
@@ -1521,6 +1561,7 @@ export class EntityManager {
      * If single database connection mode is used, then repository is obtained from the
      * repository aggregator, where each repository is individually created for this entity manager.
      * When single database connection is not used, repository is being obtained from the connection.
+     *
      * @param target
      */
     getTreeRepository<Entity extends ObjectLiteral>(
@@ -1544,6 +1585,7 @@ export class EntityManager {
 
     /**
      * Gets mongodb repository for the given entity class.
+     *
      * @param target
      */
     getMongoRepository<Entity extends ObjectLiteral>(
@@ -1556,6 +1598,7 @@ export class EntityManager {
      * Creates a new repository instance out of a given Repository and
      * sets current EntityManager instance to it. Used to work with custom repositories
      * in transactions.
+     *
      * @param repository
      */
     withRepository<Entity extends ObjectLiteral, R extends Repository<any>>(

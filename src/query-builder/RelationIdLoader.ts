@@ -27,6 +27,7 @@ export class RelationIdLoader {
 
     /**
      * Loads relation ids of the given entity or entities.
+     *
      * @param relation
      * @param entityOrEntities
      * @param relatedEntityOrRelatedEntities
@@ -68,6 +69,7 @@ export class RelationIdLoader {
      * Loads relation ids of the given entities and groups them into the object with parent and children.
      *
      * todo: extract this method?
+     *
      * @param relation
      * @param entitiesOrEntities
      * @param relatedEntityOrEntities
@@ -211,6 +213,7 @@ export class RelationIdLoader {
 
     /**
      * Loads relation ids for the many-to-many relation.
+     *
      * @param relation
      * @param entities
      * @param relatedEntities
@@ -398,6 +401,7 @@ export class RelationIdLoader {
 
     /**
      * Loads relation ids for the many-to-one and one-to-one owner relations.
+     *
      * @param relation
      * @param entities
      * @param relatedEntities
@@ -579,6 +583,7 @@ export class RelationIdLoader {
 
     /**
      * Loads relation ids for the one-to-many and one-to-one not owner relations.
+     *
      * @param relation
      * @param entities
      * @param relatedEntities
@@ -744,6 +749,7 @@ export class RelationIdLoader {
     /**
      * Executes a raw query and hydrates the results using driver-specific
      * value preparation based on the column metadata.
+     *
      * @param qb
      * @param target
      * @param mainAlias
