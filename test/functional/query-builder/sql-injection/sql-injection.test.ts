@@ -408,12 +408,22 @@ describe("query builder > sql injection", () => {
             it(`should prevent injection with: ${malicious}`, () =>
                 Promise.all(
                     dataSources.map(async (dataSource) => {
-                        const result = await dataSource
-                            .getRepository(Post)
-                            .findOne({
-                                where: { name: malicious },
-                            })
-                        expect(result).to.be.null
+                        try {
+                            const result = await dataSource
+                                .getRepository(Post)
+                                .findOne({
+                                    where: { name: malicious },
+                                })
+                            expect(result).to.be.null
+                        } catch (err: any) {
+                            // Some drivers reject invalid byte sequences
+                            // (e.g. Postgres rejects \x00 with "invalid
+                            // byte sequence for encoding"). This is a safe
+                            // outcome — the malicious input was rejected.
+                            expect(err.message).to.match(
+                                /invalid byte sequence|invalid.+encoding/i,
+                            )
+                        }
                         await verifyIntegrity(dataSource)()
                     }),
                 ))
