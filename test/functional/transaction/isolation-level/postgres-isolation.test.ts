@@ -124,14 +124,22 @@ describe("transaction > isolation level > postgres / cockroachdb", () => {
             describe(isolationLevel, () => {
                 let dataSources: DataSource[]
                 before(async () => {
+                    // Create schema without isolation level to avoid
+                    // DDL failures under weak isolation
+                    const setup = await createTestingConnections({
+                        entities: [__dirname + "/entity/*{.js,.ts}"],
+                        enabledDrivers: ["postgres", "cockroachdb"],
+                        schemaCreate: true,
+                        dropSchema: true,
+                    })
+                    await closeTestingConnections(setup)
+
                     dataSources = await createTestingConnections({
                         entities: [__dirname + "/entity/*{.js,.ts}"],
                         enabledDrivers: ["postgres", "cockroachdb"],
                         driverSpecific: {
                             isolationLevel,
                         },
-                        schemaCreate: true,
-                        dropSchema: true,
                     })
                 })
                 after(() => closeTestingConnections(dataSources))

@@ -114,14 +114,33 @@ describe("transaction > isolation level > oracle", () => {
             describe(isolationLevel, () => {
                 let dataSources: DataSource[]
                 before(async () => {
+                    // Create schema without isolation level to avoid
+                    // ORA-08177 during DDL under SERIALIZABLE
+                    const setup = await createTestingConnections({
+                        entities: [__dirname + "/entity/*{.js,.ts}"],
+                        enabledDrivers: ["oracle"],
+                        schemaCreate: true,
+                        dropSchema: true,
+                    })
+
+                    if (isolationLevel === "SERIALIZABLE") {
+                        // Seed data to prevent ORA-08177 on first
+                        // SERIALIZABLE transaction after DDL
+                        for (const ds of setup) {
+                            await ds.query(
+                                `INSERT INTO "post" ("title") VALUES ('Post #0')`,
+                            )
+                        }
+                    }
+
+                    await closeTestingConnections(setup)
+
                     dataSources = await createTestingConnections({
                         entities: [__dirname + "/entity/*{.js,.ts}"],
                         enabledDrivers: ["oracle"],
                         driverSpecific: {
                             isolationLevel,
                         },
-                        schemaCreate: true,
-                        dropSchema: true,
                     })
                 })
                 after(() => closeTestingConnections(dataSources))
@@ -129,13 +148,6 @@ describe("transaction > isolation level > oracle", () => {
                 it(`should apply ${isolationLevel} as default`, () =>
                     Promise.all(
                         dataSources.map(async (dataSource) => {
-                            if (isolationLevel === "SERIALIZABLE") {
-                                // Prevent ORA-08177 after DDL
-                                await dataSource.manager
-                                    .getRepository(Post)
-                                    .save({ title: "Post #0" })
-                            }
-
                             await dataSource.manager.transaction(
                                 async (entityManager) => {
                                     const post = new Post()

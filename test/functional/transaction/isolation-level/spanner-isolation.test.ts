@@ -98,11 +98,19 @@ describe("transaction > isolation level > spanner", () => {
             describe(isolationLevel, () => {
                 let dataSources: DataSource[]
                 before(async () => {
-                    dataSources = await createTestingConnections({
+                    // Create schema without isolation level to avoid
+                    // DDL failures under non-default isolation
+                    const setup = await createTestingConnections({
                         entities: [__dirname + "/entity/*{.js,.ts}"],
                         enabledDrivers: ["spanner"],
                         schemaCreate: true,
                         dropSchema: true,
+                    })
+                    await closeTestingConnections(setup)
+
+                    dataSources = await createTestingConnections({
+                        entities: [__dirname + "/entity/*{.js,.ts}"],
+                        enabledDrivers: ["spanner"],
                         driverSpecific: {
                             isolationLevel,
                         },
