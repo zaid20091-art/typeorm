@@ -135,6 +135,7 @@ jobs:
       - run: pnpm exec c8 pnpm test
         working-directory: packages/codemod
       - uses: SonarSource/sonarqube-scan-action@v7
+        if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
         with:
           projectBaseDir: packages/codemod
         env:
@@ -154,9 +155,10 @@ jobs:
       - name: Merge coverage reports
         run: |
           mkdir -p coverage
-          find coverage-parts -name 'lcov.info' -exec cat {} + > coverage/lcov.info
+          npx lcov-result-merger "coverage-parts/**/lcov.info" coverage/lcov.info
 
       - uses: SonarSource/sonarqube-scan-action@v7
+        if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
