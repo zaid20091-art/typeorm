@@ -4,6 +4,7 @@ import {
     OneToOne,
     PrimaryGeneratedColumn,
 } from "../../../../../src"
+import type { Post } from "./Post"
 
 @Entity()
 export class Photo {
@@ -14,5 +15,5 @@ export class Photo {
     url: string
 
     @OneToOne("Post", "photo")
-    post: any
+    post: Post
 }
