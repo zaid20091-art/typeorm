@@ -101,6 +101,7 @@ export default defineConfig([
         // and then remove manual config in favor of `config: "flat/recommended-typescript-error"`
         rules: {
             "jsdoc/valid-types": "error",
+            "jsdoc/tag-lines": "off",
         },
     }),
 

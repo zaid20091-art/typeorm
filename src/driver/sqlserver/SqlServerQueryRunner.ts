@@ -4200,10 +4200,12 @@ export class SqlServerQueryRunner
     /**
      * Removes parenthesis around default value.
      * Sql server returns default value with parenthesis around.
+     *
      * @example
      * ('My text') // for string
      * ((1)) // for number
      * (newsequentialId()) // for function
+     *
      * @param defaultValue
      */
     protected removeParenthesisFromDefault(defaultValue: string): any {

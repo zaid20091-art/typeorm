@@ -2,6 +2,7 @@ import { FindOperator } from "../FindOperator"
 
 /**
  * Find Options Operator.
+ *
  * @example
  * { someField: IsNull() }
  */

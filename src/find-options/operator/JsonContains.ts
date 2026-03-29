@@ -2,8 +2,10 @@ import { FindOperator } from "../FindOperator"
 
 /**
  * FindOptions Operator.
+ *
  * @example
  * { someField: JsonContains({...}) }
+ *
  * @param value
  */
 export function JsonContains<

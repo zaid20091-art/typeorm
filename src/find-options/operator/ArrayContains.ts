@@ -2,8 +2,10 @@ import { FindOperator } from "../FindOperator"
 
 /**
  * FindOptions Operator.
+ *
  * @example
  * { someField: ArrayContains([...]) }
+ *
  * @param value
  */
 export function ArrayContains<T>(

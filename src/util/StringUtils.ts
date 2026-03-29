@@ -75,6 +75,7 @@ export interface IShortenOptions {
  * @param input String to be shortened.
  * @param options Default to `4` for segments length, `2` for terms length, `'__'` as a separator.
  * @returns Shortened `input`.
+ *
  * @example
  * // returns: "UsShCa__orde__mark__dire"
  * shorten('UserShoppingCart__order__market__director')
