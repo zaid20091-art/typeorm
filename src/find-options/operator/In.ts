@@ -2,7 +2,8 @@ import { FindOperator } from "../FindOperator"
 
 /**
  * Find Options Operator.
- * Example: { someField: In([...]) }
+ * @example
+ * { someField: In([...]) }
  * @param value
  */
 export function In<T>(
