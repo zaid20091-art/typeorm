@@ -66,7 +66,7 @@ describe("cascades > cascade update", () => {
         let dataSources: DataSource[]
         before(async () => {
             dataSources = await createTestingConnections({
-                entities: [PostWithInsertOnly, Photo],
+                entities: [Post, PostWithInsertOnly, Photo],
                 schemaCreate: true,
                 dropSchema: true,
             })
