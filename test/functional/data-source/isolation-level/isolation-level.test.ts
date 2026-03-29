@@ -1,3 +1,4 @@
+import { expect } from "chai"
 import "reflect-metadata"
 import {
     closeTestingConnections,
@@ -24,8 +25,12 @@ describe("data source > isolation level", () => {
                         ...dataSource.options,
                         isolationLevel: level,
                     })
-                    await ds.initialize()
-                    await ds.destroy()
+                    try {
+                        await ds.initialize()
+                    } finally {
+                        expect(ds.isInitialized).to.be.true
+                        await ds.destroy()
+                    }
                 }
             }),
         ))
@@ -45,9 +50,9 @@ describe("data source > isolation level", () => {
                         ...dataSource.options,
                         isolationLevel: level,
                     })
-                    await ds
-                        .initialize()
-                        .should.be.rejectedWith("is not supported")
+                    await expect(ds.initialize()).to.be.rejectedWith(
+                        "is not supported",
+                    )
                 }
             }),
         ))
