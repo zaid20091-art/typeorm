@@ -150,7 +150,9 @@ jobs:
           path: coverage-parts/
 
       - name: Merge coverage reports
-        run: find coverage-parts -name 'lcov.info' -exec cat {} + > coverage/lcov.info
+        run: |
+          mkdir -p coverage
+          find coverage-parts -name 'lcov.info' -exec cat {} + > coverage/lcov.info
 
       - uses: SonarSource/sonarqube-scan-action@v5
         env:
