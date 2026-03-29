@@ -46,6 +46,7 @@ jobs:
             src-or-tests: &src-or-tests
               - *src
               - .github/actions/setup-node/**
+              - .github/actions/upload-coverage/**
               - .github/workflows/test*.yml
               - docker-compose.yml
               - docker/**/*
@@ -135,7 +136,7 @@ jobs:
       - run: pnpm exec c8 pnpm test
         working-directory: packages/codemod
       - uses: SonarSource/sonarqube-scan-action@v7
-        if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         with:
           projectBaseDir: packages/codemod
         env:
@@ -153,7 +154,7 @@ jobs:
           path: coverage/
 
       - uses: SonarSource/sonarqube-scan-action@v7
-        if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
