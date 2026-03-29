@@ -16,8 +16,6 @@ describe("cascades > cascade update", () => {
         before(async () => {
             dataSources = await createTestingConnections({
                 entities: [Post, Photo],
-                schemaCreate: true,
-                dropSchema: true,
             })
         })
         beforeEach(() => reloadTestingDatabases(dataSources))
@@ -67,8 +65,6 @@ describe("cascades > cascade update", () => {
         before(async () => {
             dataSources = await createTestingConnections({
                 entities: [Post, PostWithInsertOnly, Photo],
-                schemaCreate: true,
-                dropSchema: true,
             })
         })
         beforeEach(() => reloadTestingDatabases(dataSources))

@@ -14,8 +14,6 @@ describe("cascades > cascade remove relation", () => {
     before(async () => {
         dataSources = await createTestingConnections({
             entities: [Post, Details],
-            schemaCreate: true,
-            dropSchema: true,
         })
     })
     beforeEach(() => reloadTestingDatabases(dataSources))
