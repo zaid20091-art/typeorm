@@ -20,6 +20,11 @@ export class AuroraPostgresDriver extends PostgresWrapper {
     // -------------------------------------------------------------------------
 
     /**
+     * Isolation levels supported by this driver.
+     */
+    supportedIsolationLevels = PostgresDriver.supportedIsolationLevels
+
+    /**
      * Aurora Data API underlying library.
      */
     DataApiDriver: any

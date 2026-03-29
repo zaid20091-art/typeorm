@@ -113,6 +113,8 @@ export class MysqlQueryRunner extends BaseQueryRunner implements QueryRunner {
      * @param isolationLevel
      */
     async startTransaction(isolationLevel?: IsolationLevel): Promise<void> {
+        isolationLevel ??= this.dataSource.options.isolationLevel
+
         validateIsolationLevel(
             MysqlDriver.supportedIsolationLevels,
             isolationLevel,

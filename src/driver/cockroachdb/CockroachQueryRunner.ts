@@ -187,6 +187,8 @@ export class CockroachQueryRunner
      * @param isolationLevel
      */
     async startTransaction(isolationLevel?: IsolationLevel): Promise<void> {
+        isolationLevel ??= this.dataSource.options.isolationLevel
+
         validateIsolationLevel(
             CockroachDriver.supportedIsolationLevels,
             isolationLevel,

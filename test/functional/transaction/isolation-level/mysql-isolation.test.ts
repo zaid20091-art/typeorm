@@ -110,4 +110,37 @@ describe("transaction > isolation level > mysql", () => {
             }
         })
     })
+
+    describe("defined in data source", () => {
+        for (const isolationLevel of supportedLevels) {
+            describe(isolationLevel, () => {
+                let dataSources: DataSource[]
+                before(async () => {
+                    dataSources = await createTestingConnections({
+                        entities: [__dirname + "/entity/*{.js,.ts}"],
+                        enabledDrivers: ["mysql"],
+                        driverSpecific: {
+                            isolationLevel,
+                        },
+                    })
+                })
+                beforeEach(() => reloadTestingDatabases(dataSources))
+                after(() => closeTestingConnections(dataSources))
+
+                it(`should apply ${isolationLevel} as default`, () =>
+                    Promise.all(
+                        dataSources.map(async (dataSource) => {
+                            await dataSource.manager.transaction(
+                                async (entityManager) => {
+                                    await getCurrentTransactionLevelAndAssert(
+                                        entityManager,
+                                        isolationLevel,
+                                    )
+                                },
+                            )
+                        }),
+                    ))
+            })
+        }
+    })
 })

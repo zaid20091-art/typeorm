@@ -74,6 +74,8 @@ export abstract class AbstractSqliteQueryRunner
      * @param isolationLevel
      */
     async startTransaction(isolationLevel?: IsolationLevel): Promise<void> {
+        isolationLevel ??= this.dataSource.options.isolationLevel
+
         validateIsolationLevel(
             AbstractSqliteDriver.supportedIsolationLevels,
             isolationLevel,

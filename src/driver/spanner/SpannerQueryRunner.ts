@@ -99,6 +99,8 @@ export class SpannerQueryRunner extends BaseQueryRunner implements QueryRunner {
      * @param isolationLevel
      */
     async startTransaction(isolationLevel?: IsolationLevel): Promise<void> {
+        isolationLevel ??= this.dataSource.options.isolationLevel
+
         validateIsolationLevel(
             SpannerDriver.supportedIsolationLevels,
             isolationLevel,

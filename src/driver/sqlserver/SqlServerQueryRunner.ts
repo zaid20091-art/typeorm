@@ -90,6 +90,8 @@ export class SqlServerQueryRunner
      * @param isolationLevel
      */
     async startTransaction(isolationLevel?: IsolationLevel): Promise<void> {
+        isolationLevel ??= this.dataSource.options.isolationLevel
+
         validateIsolationLevel(
             SqlServerDriver.supportedIsolationLevels,
             isolationLevel,

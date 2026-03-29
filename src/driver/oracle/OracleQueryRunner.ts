@@ -114,9 +114,10 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
      * Starts transaction.
      * @param isolationLevel
      */
-    async startTransaction(
-        isolationLevel: IsolationLevel = "READ COMMITTED",
-    ): Promise<void> {
+    async startTransaction(isolationLevel?: IsolationLevel): Promise<void> {
+        isolationLevel ??=
+            this.dataSource.options.isolationLevel ?? "READ COMMITTED"
+
         validateIsolationLevel(
             OracleDriver.supportedIsolationLevels,
             isolationLevel,
