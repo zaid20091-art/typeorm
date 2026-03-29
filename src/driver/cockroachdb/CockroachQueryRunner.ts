@@ -27,7 +27,7 @@ import type { IsolationLevel } from "../types/IsolationLevel"
 import { validateIsolationLevel } from "../validate-isolation-level"
 import { MetadataTableType } from "../types/MetadataTableType"
 import type { ReplicationMode } from "../types/ReplicationMode"
-import { CockroachDriver } from "./CockroachDriver"
+import type { CockroachDriver } from "./CockroachDriver"
 
 /**
  * Runs queries on a single postgres database connection.
@@ -190,7 +190,7 @@ export class CockroachQueryRunner
         isolationLevel ??= this.dataSource.options.isolationLevel
 
         validateIsolationLevel(
-            CockroachDriver.supportedIsolationLevels,
+            this.driver.supportedIsolationLevels,
             isolationLevel,
         )
 

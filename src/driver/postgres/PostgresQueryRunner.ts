@@ -28,7 +28,7 @@ import type { IsolationLevel } from "../types/IsolationLevel"
 import { validateIsolationLevel } from "../validate-isolation-level"
 import { MetadataTableType } from "../types/MetadataTableType"
 import type { ReplicationMode } from "../types/ReplicationMode"
-import { PostgresDriver } from "./PostgresDriver"
+import type { PostgresDriver } from "./PostgresDriver"
 
 /**
  * Runs queries on a single postgres database connection.
@@ -172,7 +172,7 @@ export class PostgresQueryRunner
         isolationLevel ??= this.dataSource.options.isolationLevel
 
         validateIsolationLevel(
-            PostgresDriver.supportedIsolationLevels,
+            this.driver.supportedIsolationLevels,
             isolationLevel,
         )
 

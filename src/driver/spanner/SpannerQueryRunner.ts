@@ -25,7 +25,7 @@ import type { IsolationLevel } from "../types/IsolationLevel"
 import { validateIsolationLevel } from "../validate-isolation-level"
 import { MetadataTableType } from "../types/MetadataTableType"
 import type { ReplicationMode } from "../types/ReplicationMode"
-import { SpannerDriver } from "./SpannerDriver"
+import type { SpannerDriver } from "./SpannerDriver"
 
 /**
  * Runs queries on a single postgres database connection.
@@ -102,7 +102,7 @@ export class SpannerQueryRunner extends BaseQueryRunner implements QueryRunner {
         isolationLevel ??= this.dataSource.options.isolationLevel
 
         validateIsolationLevel(
-            SpannerDriver.supportedIsolationLevels,
+            this.driver.supportedIsolationLevels,
             isolationLevel,
         )
 

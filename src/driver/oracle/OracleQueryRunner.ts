@@ -25,7 +25,7 @@ import type { IsolationLevel } from "../types/IsolationLevel"
 import { validateIsolationLevel } from "../validate-isolation-level"
 import { MetadataTableType } from "../types/MetadataTableType"
 import type { ReplicationMode } from "../types/ReplicationMode"
-import { OracleDriver } from "./OracleDriver"
+import type { OracleDriver } from "./OracleDriver"
 
 /**
  * Runs queries on a single oracle database connection.
@@ -119,7 +119,7 @@ export class OracleQueryRunner extends BaseQueryRunner implements QueryRunner {
             this.dataSource.options.isolationLevel ?? "READ COMMITTED"
 
         validateIsolationLevel(
-            OracleDriver.supportedIsolationLevels,
+            this.driver.supportedIsolationLevels,
             isolationLevel,
         )
         if (this.isReleased) throw new QueryRunnerAlreadyReleasedError()

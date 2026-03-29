@@ -28,7 +28,7 @@ import { validateIsolationLevel } from "../validate-isolation-level"
 import { MetadataTableType } from "../types/MetadataTableType"
 import type { ReplicationMode } from "../types/ReplicationMode"
 import type { MssqlParameter } from "./MssqlParameter"
-import { SqlServerDriver } from "./SqlServerDriver"
+import type { SqlServerDriver } from "./SqlServerDriver"
 
 /**
  * Runs queries on a single SQL Server database connection.
@@ -93,7 +93,7 @@ export class SqlServerQueryRunner
         isolationLevel ??= this.dataSource.options.isolationLevel
 
         validateIsolationLevel(
-            SqlServerDriver.supportedIsolationLevels,
+            this.driver.supportedIsolationLevels,
             isolationLevel,
         )
         if (this.isReleased) throw new QueryRunnerAlreadyReleasedError()

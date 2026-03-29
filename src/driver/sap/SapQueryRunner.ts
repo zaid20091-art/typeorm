@@ -28,7 +28,7 @@ import type { IsolationLevel } from "../types/IsolationLevel"
 import { validateIsolationLevel } from "../validate-isolation-level"
 import { MetadataTableType } from "../types/MetadataTableType"
 import type { ReplicationMode } from "../types/ReplicationMode"
-import { SapDriver } from "./SapDriver"
+import type { SapDriver } from "./SapDriver"
 
 /**
  * Runs queries on a single SQL Server database connection.
@@ -110,7 +110,7 @@ export class SapQueryRunner extends BaseQueryRunner implements QueryRunner {
         isolationLevel ??= this.dataSource.options.isolationLevel
 
         validateIsolationLevel(
-            SapDriver.supportedIsolationLevels,
+            this.driver.supportedIsolationLevels,
             isolationLevel,
         )
         if (this.isReleased) throw new QueryRunnerAlreadyReleasedError()
