@@ -24,7 +24,7 @@ describe("mssql -> add column to existing table", () => {
         )
     })
 
-    after(async () => {
+    afterEach(async () => {
         await closeTestingConnections(dataSources)
     })
 
