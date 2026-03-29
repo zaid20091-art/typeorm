@@ -154,7 +154,7 @@ jobs:
           mkdir -p coverage
           find coverage-parts -name 'lcov.info' -exec cat {} + > coverage/lcov.info
 
-      - uses: SonarSource/sonarcloud-github-action@v5
+      - uses: SonarSource/sonarqube-scan-action@v7
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
