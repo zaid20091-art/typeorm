@@ -1,5 +1,4 @@
 import { expect } from "chai"
-import Sinon from "sinon"
 import type { DataSource } from "../../../src"
 import {
     closeTestingConnections,
@@ -23,83 +22,83 @@ describe("github issues > #5919 Caching won't work with replication enabled", ()
     beforeEach(() => reloadTestingDatabases(dataSources))
     after(() => closeTestingConnections(dataSources))
 
-    it("should not another queryRunner for cache with a given masterQueryRunner", () =>
+    it("should use cache with a master query runner", () =>
         Promise.all(
-            dataSources.map(async (connection) => {
+            dataSources.map(async (dataSource) => {
                 const comment1 = new Comment()
-                comment1.text = "tata"
-                await connection.manager.save(comment1)
+                comment1.text = "first"
+                await dataSource.manager.save(comment1)
 
-                const masterQueryRunner = connection.createQueryRunner("master")
-                const createQueryRunnerSpy = Sinon.spy(
-                    connection,
-                    "createQueryRunner",
-                )
+                const masterQueryRunner = dataSource.createQueryRunner("master")
 
-                const results1 = await connection
-                    .createQueryBuilder()
-                    .from(Comment, "c")
-                    .cache(true)
-                    .setQueryRunner(masterQueryRunner)
-                    .getRawMany()
+                try {
+                    // first query — populates cache
+                    const results1 = await dataSource
+                        .createQueryBuilder()
+                        .from(Comment, "c")
+                        .cache(true)
+                        .setQueryRunner(masterQueryRunner)
+                        .getRawMany()
 
-                expect(results1.length).eq(1)
+                    expect(results1.length).to.equal(1)
 
-                expect(createQueryRunnerSpy.notCalled)
+                    // insert another record
+                    const comment2 = new Comment()
+                    comment2.text = "second"
+                    await dataSource.manager.save(comment2)
 
-                // add another one and ensure cache works
-                const comment2 = new Comment()
-                comment2.text = "tata"
-                await connection.manager.save(comment2)
+                    // second query — should return cached result (stale)
+                    const results2 = await dataSource
+                        .createQueryBuilder()
+                        .from(Comment, "c")
+                        .cache(true)
+                        .setQueryRunner(masterQueryRunner)
+                        .getRawMany()
 
-                const results2 = await connection
-                    .createQueryBuilder()
-                    .from(Comment, "c")
-                    .cache(true)
-                    .setQueryRunner(masterQueryRunner)
-                    .getRawMany()
-
-                expect(results2.length).eq(1)
+                    expect(results2.length).to.equal(1)
+                } finally {
+                    await masterQueryRunner.release()
+                }
             }),
         ))
 
-    it("should create another queryRunner for cache with a given slaveQueryRunner", () =>
+    it("should use cache with a slave query runner", () =>
         Promise.all(
-            dataSources.map(async (connection) => {
+            dataSources.map(async (dataSource) => {
                 const comment1 = new Comment()
-                comment1.text = "tata"
-                await connection.manager.save(comment1)
+                comment1.text = "first"
+                await dataSource.manager.save(comment1)
 
-                const slaveQueryRunner = connection.createQueryRunner("slave")
-                const createQueryRunnerSpy = Sinon.spy(
-                    connection,
-                    "createQueryRunner",
-                )
+                const slaveQueryRunner = dataSource.createQueryRunner("slave")
 
-                const results1 = await connection
-                    .createQueryBuilder()
-                    .from(Comment, "c")
-                    .cache(true)
-                    .setQueryRunner(slaveQueryRunner)
-                    .getRawMany()
+                try {
+                    // first query — populates cache
+                    const results1 = await dataSource
+                        .createQueryBuilder()
+                        .from(Comment, "c")
+                        .cache(true)
+                        .setQueryRunner(slaveQueryRunner)
+                        .getRawMany()
 
-                expect(results1.length).eq(1)
+                    expect(results1.length).to.equal(1)
 
-                expect(createQueryRunnerSpy.calledOnce)
+                    // insert another record
+                    const comment2 = new Comment()
+                    comment2.text = "second"
+                    await dataSource.manager.save(comment2)
 
-                // add another one and ensure cache works
-                const comment2 = new Comment()
-                comment2.text = "tata"
-                await connection.manager.save(comment2)
+                    // second query — should return cached result (stale)
+                    const results2 = await dataSource
+                        .createQueryBuilder()
+                        .from(Comment, "c")
+                        .cache(true)
+                        .setQueryRunner(slaveQueryRunner)
+                        .getRawMany()
 
-                const results2 = await connection
-                    .createQueryBuilder()
-                    .from(Comment, "c")
-                    .cache(true)
-                    .setQueryRunner(slaveQueryRunner)
-                    .getRawMany()
-
-                expect(results2.length).eq(1)
+                    expect(results2.length).to.equal(1)
+                } finally {
+                    await slaveQueryRunner.release()
+                }
             }),
         ))
 })
