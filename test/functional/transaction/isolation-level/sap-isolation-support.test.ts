@@ -118,12 +118,13 @@ describe("transaction > isolation level > sap", () => {
                     dataSources = await createTestingConnections({
                         entities: [__dirname + "/entity/*{.js,.ts}"],
                         enabledDrivers: ["sap"],
+                        schemaCreate: true,
+                        dropSchema: true,
                         driverSpecific: {
                             isolationLevel,
                         },
                     })
                 })
-                beforeEach(() => reloadTestingDatabases(dataSources))
                 after(() => closeTestingConnections(dataSources))
 
                 it(`should apply ${isolationLevel} as default`, () =>

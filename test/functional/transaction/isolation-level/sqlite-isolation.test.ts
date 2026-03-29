@@ -122,12 +122,13 @@ describe("transaction > isolation level > sqlite", () => {
                     dataSources = await createTestingConnections({
                         entities: [__dirname + "/entity/*{.js,.ts}"],
                         enabledDrivers: ["better-sqlite3", "sqljs"],
+                        schemaCreate: true,
+                        dropSchema: true,
                         driverSpecific: {
                             isolationLevel,
                         },
                     })
                 })
-                beforeEach(() => reloadTestingDatabases(dataSources))
                 after(() => closeTestingConnections(dataSources))
 
                 it(`should apply ${isolationLevel} as default`, () =>

@@ -101,12 +101,13 @@ describe("transaction > isolation level > spanner", () => {
                     dataSources = await createTestingConnections({
                         entities: [__dirname + "/entity/*{.js,.ts}"],
                         enabledDrivers: ["spanner"],
+                        schemaCreate: true,
+                        dropSchema: true,
                         driverSpecific: {
                             isolationLevel,
                         },
                     })
                 })
-                beforeEach(() => reloadTestingDatabases(dataSources))
                 after(() => closeTestingConnections(dataSources))
 
                 it(`should apply ${isolationLevel} as default`, () =>

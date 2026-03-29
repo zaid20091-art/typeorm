@@ -120,9 +120,10 @@ describe("transaction > isolation level > oracle", () => {
                         driverSpecific: {
                             isolationLevel,
                         },
+                        schemaCreate: true,
+                        dropSchema: true,
                     })
                 })
-                beforeEach(() => reloadTestingDatabases(dataSources))
                 after(() => closeTestingConnections(dataSources))
 
                 it(`should apply ${isolationLevel} as default`, () =>

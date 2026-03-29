@@ -68,12 +68,13 @@ describe("transaction > isolation level > mssql", () => {
                         dataSources = await createTestingConnections({
                             entities: [__dirname + "/entity/*{.js,.ts}"],
                             enabledDrivers: ["mssql"],
+                            schemaCreate: true,
+                            dropSchema: true,
                             driverSpecific: {
                                 isolationLevel,
                             },
                         })
                     })
-                    beforeEach(() => reloadTestingDatabases(dataSources))
                     after(() => closeTestingConnections(dataSources))
 
                     it(`should apply ${isolationLevel} as default`, () =>

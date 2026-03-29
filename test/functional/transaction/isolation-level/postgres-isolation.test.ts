@@ -130,9 +130,10 @@ describe("transaction > isolation level > postgres / cockroachdb", () => {
                         driverSpecific: {
                             isolationLevel,
                         },
+                        schemaCreate: true,
+                        dropSchema: true,
                     })
                 })
-                beforeEach(() => reloadTestingDatabases(dataSources))
                 after(() => closeTestingConnections(dataSources))
 
                 it(`should apply ${isolationLevel} as default`, () =>
