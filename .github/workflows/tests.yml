@@ -140,9 +140,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: [detect-changes, tests-linux, tests-windows]
     steps:
-      - uses: coverallsapp/github-action@v2
+      - uses: actions/checkout@v6
         with:
-          parallel-finished: true
+          fetch-depth: 0
+
+      - uses: actions/download-artifact@v7
+        with:
+          pattern: coverage-*
+          path: coverage-parts/
+
+      - name: Merge coverage reports
+        run: find coverage-parts -name 'lcov.info' -exec cat {} + > coverage/lcov.info
+
+      - uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   all-passed:
     runs-on: ubuntu-latest
