@@ -1,4 +1,4 @@
-import { OneToMany, ChildEntity } from "../../../../src/index"
+import { OneToMany, ChildEntity } from "../../../../../src/index"
 import { Change } from "./Change"
 import { Log } from "./Log"
 

@@ -3,7 +3,7 @@ import {
     Entity,
     ManyToOne,
     PrimaryGeneratedColumn,
-} from "../../../../src/index"
+} from "../../../../../src/index"
 import { ChangeLog } from "./ChangeLog"
 
 @Entity()

@@ -3,14 +3,14 @@ import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
-} from "../../utils/test-utils"
-import type { DataSource, EntityManager } from "../../../src"
+} from "../../../utils/test-utils"
+import type { DataSource, EntityManager } from "../../../../src"
 import { Parent } from "./entity/Parent"
 import { Child } from "./entity/Child"
-import { xfail } from "../../utils/xfail"
+import { xfail } from "../../../utils/xfail"
 import { expect } from "chai"
 
-describe("github issues > #3105 Error with cascading saves using EntityManager in a transaction", () => {
+describe("cascades > save in transaction", () => {
     let dataSources: DataSource[]
 
     before(async () => {

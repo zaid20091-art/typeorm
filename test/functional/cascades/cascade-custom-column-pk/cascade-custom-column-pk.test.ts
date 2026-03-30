@@ -8,7 +8,7 @@ import type { DataSource } from "../../../../src/data-source/DataSource"
 import { Post } from "./entity/Post"
 import { Category } from "./entity/Category"
 
-describe("persistence > cascade operations with custom name", () => {
+describe("cascades > custom column primary key", () => {
     let dataSources: DataSource[]
     before(async () => {
         dataSources = await createTestingConnections({
