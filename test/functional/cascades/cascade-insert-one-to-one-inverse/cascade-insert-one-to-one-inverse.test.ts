@@ -1,15 +1,15 @@
 import "reflect-metadata"
 import { assert } from "chai"
-import type { DataSource } from "../../../src/data-source/DataSource"
+import type { DataSource } from "../../../../src/data-source/DataSource"
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
-} from "../../utils/test-utils"
+} from "../../../utils/test-utils"
 import { Account } from "./entity/Account"
 import { AccountActivationToken } from "./entity/AccountActivationToken"
 
-describe("github issues > #1465 save child and parent entity", () => {
+describe("cascades > insert one-to-one with inverse back-reference", () => {
     let dataSources: DataSource[] = []
     before(async () => {
         dataSources = await createTestingConnections({

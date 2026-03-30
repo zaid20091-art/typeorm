@@ -1,10 +1,10 @@
-import "../../utils/test-setup"
+import "../../../utils/test-setup"
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
-} from "../../utils/test-utils"
-import type { DataSource } from "../../../src"
+} from "../../../utils/test-utils"
+import type { DataSource } from "../../../../src"
 
 import { assert } from "chai"
 
@@ -12,7 +12,7 @@ import Post, { PostSchema } from "./entity/Post"
 import PostTag, { PostTagSchema } from "./entity/PostTag"
 import PostAttachment, { PostAttachmentSchema } from "./entity/PostAttachment"
 
-describe("github issues > #6399 Combining ManyToOne, Cascade, & Composite Primary Key causes Unique Constraint issues", () => {
+describe("cascades > insert with composite primary key duplicate constraint", () => {
     let dataSources: DataSource[]
     before(async () => {
         dataSources = await createTestingConnections({

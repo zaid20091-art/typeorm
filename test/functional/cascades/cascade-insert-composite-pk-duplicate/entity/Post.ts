@@ -1,4 +1,4 @@
-import { EntitySchema } from "../../../../src"
+import { EntitySchema } from "../../../../../src"
 
 import PostTag from "./PostTag"
 import PostAttachment from "./PostAttachment"
