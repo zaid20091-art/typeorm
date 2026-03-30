@@ -322,6 +322,96 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
      * Works if only one column per table was changed.
      * Changes only column name. If something besides name was changed, these changes will be ignored.
      */
+    // ------------------ New Methods for Safe Column Changes ------------------
+
+/**
+ * دالة طاقة تقيس مدى خطورة التغيير في العمود.
+ */
+private columnEnergy(col: TableColumn & {
+    oldType?: string
+    oldLength?: string
+    constraintsAdded?: boolean
+    constraintsRemoved?: boolean
+}): number {
+    let typeRisk = 0
+    let lengthRisk = 0
+    let constraintRisk = 0
+
+    // خطر النوع
+    if (col.oldType && col.type !== col.oldType) {
+        const compatible =
+            col.oldType === col.type ||
+            (col.oldType === "character varying" && col.type === "text")
+        typeRisk = compatible ? 1 : 3
+    }
+
+    // خطر الطول
+    if (col.length && col.oldLength) {
+        const oldLen = parseInt(col.oldLength, 10)
+        const newLen = parseInt(col.length, 10)
+        if (newLen < oldLen) lengthRisk = 2
+    }
+
+    // خطر القيود
+    if (col.constraintsAdded) constraintRisk = 2
+    if (col.constraintsRemoved) constraintRisk = 3
+
+    return typeRisk + lengthRisk + constraintRisk
+}
+
+/**
+ * هل التغيير آمن (لا يزيد الطاقة)؟
+ */
+private isSafeChange(oldCol: TableColumn, newCol: TableColumn): boolean {
+    const Eold = this.columnEnergy({
+        ...oldCol,
+        oldType: oldCol.type,
+        oldLength: oldCol.length,
+        constraintsAdded: false,
+        constraintsRemoved: false,
+    })
+
+    const Enew = this.columnEnergy({
+        ...newCol,
+        oldType: newCol.type,
+        oldLength: newCol.length,
+        constraintsAdded: false,
+        constraintsRemoved: false,
+    })
+
+    return Enew - Eold <= 0
+}
+
+/**
+ * تنفيذ ALTER COLUMN الآمن في PostgreSQL.
+ */
+private async alterSafeColumn(
+    table: Table,
+    oldCol: TableColumn,
+    newCol: TableColumn,
+): Promise<void> {
+    if (this.dataSource.driver.options.type !== "postgres") return
+
+    if (
+        oldCol.type === "character varying" &&
+        newCol.type === "character varying" &&
+        oldCol.length &&
+        newCol.length
+    ) {
+        const tableName = this.getTablePath(table)
+        const newLen = newCol.length
+
+        this.dataSource.logger.logSchemaBuild(
+            `Applying safe ALTER COLUMN for "${oldCol.name}" in "${table.name}"`
+        )
+
+        await this.queryRunner.query(`
+            ALTER TABLE ${tableName}
+            ALTER COLUMN "${oldCol.name}" TYPE character varying(${newLen})
+            USING "${oldCol.name}"::character varying(${newLen})
+        `)
+    }
+}
     protected async renameColumns(): Promise<void> {
         for (const metadata of this.entityToSyncMetadatas) {
             const table = this.tables.find(
@@ -964,10 +1054,15 @@ export class RdbmsSchemaBuilder implements SchemaBuilder {
                         .map((column) => column.databaseName)
                         .join(", "),
             )
-            await this.queryRunner.changeColumns(table, newAndOldTableColumns)
-        }
-    }
-
+            for (const { oldColumn: oldTableColumn, newColumn: newTableColumn } of newAndOldTableColumns) {
+    if (this.isSafeChange(oldTableColumn, newTableColumn)) {
+        await this.alterSafeColumn(table, oldTableColumn, newTableColumn)
+    } else {
+        this.dataSource.logger.logSchemaBuild(
+            `Applying DROP + ADD for "${oldTableColumn.name}" in "${table.name}"`
+        )
+        await this.queryRunner.dropColumn(table, oldTableColumn)
+        await this.queryRunner.addColumn(table, newTableColumn)
     /**
      * Creates composite indices which are missing in db yet.
      */
