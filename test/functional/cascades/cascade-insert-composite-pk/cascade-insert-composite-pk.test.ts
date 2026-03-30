@@ -1,3 +1,4 @@
+import { expect } from "chai"
 import "reflect-metadata"
 import {
     closeTestingConnections,
@@ -77,11 +78,11 @@ describe("cascades > insert with composite primary keys", () => {
                 )
 
                 const messages = await connection.manager.find(Message)
-                messages[0].recipients.length.should.be.equal(1)
-                messages[1].recipients.length.should.be.equal(1)
+                expect(messages[0].recipients.length).to.equal(1)
+                expect(messages[1].recipients.length).to.equal(1)
 
                 const recipients = await connection.manager.find(Recipient)
-                recipients.length.should.be.equal(2)
+                expect(recipients.length).to.equal(2)
             }),
         ))
 
@@ -153,10 +154,10 @@ describe("cascades > insert with composite primary keys", () => {
                 }
 
                 const messages = await connection.manager.find(Message)
-                messages.length.should.be.equal(0)
+                expect(messages.length).to.equal(0)
 
                 const recipients = await connection.manager.find(Recipient)
-                recipients.length.should.be.equal(0)
+                expect(recipients.length).to.equal(0)
             }),
         ))
 
@@ -222,10 +223,10 @@ describe("cascades > insert with composite primary keys", () => {
                     .remove(await connection.manager.find(Message))
 
                 const messages = await connection.manager.find(Message)
-                messages.length.should.be.equal(0)
+                expect(messages.length).to.equal(0)
 
                 const recipients = await connection.manager.find(Recipient)
-                recipients.length.should.be.equal(0)
+                expect(recipients.length).to.equal(0)
             }),
         ))
 
@@ -293,7 +294,7 @@ describe("cascades > insert with composite primary keys", () => {
                 }
 
                 recipients = await connection.manager.find(Recipient)
-                recipients.length.should.be.equal(0)
+                expect(recipients.length).to.equal(0)
             }),
         ))
 })

@@ -44,8 +44,10 @@ describe("cascades > cascade update", () => {
                         .getOne()
 
                     expect(loadedPost).to.not.be.null
-                    loadedPost!.photo.url = "new-logo.png"
-                    await postRepository.save(loadedPost!)
+                    if (loadedPost) {
+                        loadedPost.photo.url = "new-logo.png"
+                        await postRepository.save(loadedPost)
+                    }
 
                     // reload and verify update was cascaded
                     const reloadedPost = await postRepository
@@ -55,7 +57,7 @@ describe("cascades > cascade update", () => {
                         .getOne()
 
                     expect(reloadedPost).to.not.be.null
-                    expect(reloadedPost!.photo.url).to.equal("new-logo.png")
+                    expect(reloadedPost?.photo.url).to.equal("new-logo.png")
                 }),
             ))
     })
@@ -96,7 +98,7 @@ describe("cascades > cascade update", () => {
                         .getOne()
 
                     expect(reloadedPost).to.not.be.null
-                    expect(reloadedPost!.photo.url).to.equal("logo.png")
+                    expect(reloadedPost?.photo.url).to.equal("logo.png")
                 }),
             ))
     })

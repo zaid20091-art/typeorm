@@ -53,7 +53,7 @@ describe("cascades > insert complex", () => {
                     .getOne()
 
                 expect(loadedQuestion).to.not.be.null
-                loadedQuestion?.should.be.eql({
+                expect(loadedQuestion).to.eql({
                     id: 1,
                     name: "My question",
                     answers: [

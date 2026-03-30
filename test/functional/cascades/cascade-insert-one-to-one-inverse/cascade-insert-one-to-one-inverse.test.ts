@@ -1,5 +1,5 @@
+import { expect } from "chai"
 import "reflect-metadata"
-import { assert } from "chai"
 import type { DataSource } from "../../../../src/data-source/DataSource"
 import {
     closeTestingConnections,
@@ -32,7 +32,8 @@ describe("cascades > insert one-to-one with inverse back-reference", () => {
                 )
 
                 const savedAccount = await connection.manager.save(account)
-                assert.isNotNull(savedAccount.accountActivationToken.account)
+                expect(savedAccount.accountActivationToken.account).to.not.be
+                    .null
             }),
         ))
 })

@@ -51,16 +51,16 @@ describe("cascades > cascade remove one-to-many", () => {
                     .orderBy("category.id")
                     .getMany()
 
-                expect(loadedPost!).not.to.be.null
-                loadedPost!.should.deep.include({
+                expect(loadedPost).to.not.be.null
+                expect(loadedPost).to.deep.include({
                     id: 1,
                     title: "Hello Post #1",
                 })
-                loadedPost!.categories.length.should.be.equal(2)
+                expect(loadedPost?.categories.length).to.equal(2)
 
-                expect(loadedCategories).not.to.be.undefined
-                loadedCategories[0].id.should.be.equal(1)
-                loadedCategories[1].id.should.be.equal(2)
+                expect(loadedCategories).to.not.be.undefined
+                expect(loadedCategories[0].id).to.equal(1)
+                expect(loadedCategories[1].id).to.equal(2)
 
                 // now remove post. categories should be removed too
                 await connection.manager.remove(post)

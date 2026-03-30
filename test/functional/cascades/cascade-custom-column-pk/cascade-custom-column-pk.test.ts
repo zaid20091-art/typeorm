@@ -1,3 +1,4 @@
+import { expect } from "chai"
 import "reflect-metadata"
 import {
     closeTestingConnections,
@@ -46,7 +47,7 @@ describe("cascades > custom column primary key", () => {
                         },
                     })
 
-                    posts.should.be.eql([
+                    expect(posts).to.eql([
                         {
                             id: 1,
                             title: "Hello Post #1",

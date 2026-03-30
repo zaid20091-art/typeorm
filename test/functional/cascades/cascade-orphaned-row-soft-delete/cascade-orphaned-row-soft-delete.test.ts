@@ -56,9 +56,9 @@ describe("cascades > orphaned row soft-delete", () => {
                 const category = await categoryRepository.findOneBy({
                     id: categoryId,
                 })
-                expect(category).not.to.be.null
-                expect(category!.posts).to.have.lengthOf(1)
-                expect(category!.posts[0].id).to.equal(1)
+                expect(category).to.not.be.null
+                expect(category?.posts).to.have.lengthOf(1)
+                expect(category?.posts[0].id).to.equal(1)
 
                 // should mark orphaned Post as soft-deleted
                 const postCount = await postRepository.count()

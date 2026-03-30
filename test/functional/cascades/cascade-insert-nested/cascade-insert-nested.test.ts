@@ -47,7 +47,7 @@ describe("cascades > insert nested", () => {
                     .getOne()
 
                 expect(loadedUser).to.not.be.null
-                loadedUser?.should.be.eql({
+                expect(loadedUser).to.eql({
                     id: 1,
                     name: "Umed",
                     profile: {

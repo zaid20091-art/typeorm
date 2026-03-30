@@ -51,29 +51,29 @@ describe.skip("cascades > remove", () => {
                     .getOne()
 
                 expect(loadedUser).to.not.be.null
-                loadedUser?.id.should.be.equal(1)
-                loadedUser?.name.should.be.equal("Mr. Cascade Danger")
+                expect(loadedUser?.id).to.equal(1)
+                expect(loadedUser?.name).to.equal("Mr. Cascade Danger")
 
                 const manyPhotoNames = (loadedUser?.manyPhotos ?? []).map(
                     (photo) => photo.name,
                 )
-                manyPhotoNames.length.should.be.equal(2)
-                manyPhotoNames.should.deep.include("one-to-many #1")
-                manyPhotoNames.should.deep.include("one-to-many #2")
+                expect(manyPhotoNames.length).to.equal(2)
+                expect(manyPhotoNames).to.deep.include("one-to-many #1")
+                expect(manyPhotoNames).to.deep.include("one-to-many #2")
 
                 const manyToManyPhotoNames = (
                     loadedUser?.manyToManyPhotos ?? []
                 ).map((photo) => photo.name)
-                manyToManyPhotoNames.length.should.be.equal(3)
-                manyToManyPhotoNames.should.deep.include("many-to-many #1")
-                manyToManyPhotoNames.should.deep.include("many-to-many #2")
-                manyToManyPhotoNames.should.deep.include("many-to-many #3")
+                expect(manyToManyPhotoNames.length).to.equal(3)
+                expect(manyToManyPhotoNames).to.deep.include("many-to-many #1")
+                expect(manyToManyPhotoNames).to.deep.include("many-to-many #2")
+                expect(manyToManyPhotoNames).to.deep.include("many-to-many #3")
 
                 await dataSource.manager.remove(user)
 
                 const allPhotos = await dataSource.manager.find(Photo)
-                allPhotos.length.should.be.equal(1)
-                allPhotos[0].name.should.be.equal("Photo #1")
+                expect(allPhotos.length).to.equal(1)
+                expect(allPhotos[0].name).to.equal("Photo #1")
             }),
         ))
 })

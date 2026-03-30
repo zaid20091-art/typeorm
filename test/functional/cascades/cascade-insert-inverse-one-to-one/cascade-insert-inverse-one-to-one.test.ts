@@ -56,7 +56,7 @@ describe("cascades > insert from inverse one-to-one side", () => {
                     },
                 )
                 expect(loadedCredentials).to.not.be.null
-                loadedCredentials?.should.be.eql({
+                expect(loadedCredentials).to.eql({
                     id: 2,
                     user: {
                         id: 2,

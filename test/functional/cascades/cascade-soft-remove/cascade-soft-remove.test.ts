@@ -50,31 +50,31 @@ describe("cascades > soft-remove", () => {
                     .getOne()
 
                 expect(loadedUser).to.not.be.null
-                loadedUser?.id.should.be.equal(1)
-                loadedUser?.name.should.be.equal("Mr. Cascade Danger")
+                expect(loadedUser?.id).to.equal(1)
+                expect(loadedUser?.name).to.equal("Mr. Cascade Danger")
 
                 const manyPhotoNames = (loadedUser?.manyPhotos ?? []).map(
                     (photo) => photo.name,
                 )
-                manyPhotoNames.length.should.be.equal(2)
-                manyPhotoNames.should.deep.include("one-to-many #1")
-                manyPhotoNames.should.deep.include("one-to-many #2")
+                expect(manyPhotoNames.length).to.equal(2)
+                expect(manyPhotoNames).to.deep.include("one-to-many #1")
+                expect(manyPhotoNames).to.deep.include("one-to-many #2")
 
                 const manyToManyPhotoNames = (
                     loadedUser?.manyToManyPhotos ?? []
                 ).map((photo) => photo.name)
-                manyToManyPhotoNames.length.should.be.equal(3)
-                manyToManyPhotoNames.should.deep.include("many-to-many #1")
-                manyToManyPhotoNames.should.deep.include("many-to-many #2")
-                manyToManyPhotoNames.should.deep.include("many-to-many #3")
+                expect(manyToManyPhotoNames.length).to.equal(3)
+                expect(manyToManyPhotoNames).to.deep.include("many-to-many #1")
+                expect(manyToManyPhotoNames).to.deep.include("many-to-many #2")
+                expect(manyToManyPhotoNames).to.deep.include("many-to-many #3")
 
                 await dataSource.manager.softRemove(user)
 
                 const allPhotos = await dataSource.manager.findBy(Photo, {
                     deletedAt: IsNull(),
                 })
-                allPhotos.length.should.be.equal(1)
-                allPhotos[0].name.should.be.equal("Photo #1")
+                expect(allPhotos.length).to.equal(1)
+                expect(allPhotos[0].name).to.equal("Photo #1")
             }),
         ))
 
@@ -93,19 +93,19 @@ describe("cascades > soft-remove", () => {
                 await dataSource.manager.softRemove(user)
                 // sanity check photos are soft-removed
                 const allDeletedPhotos = await dataSource.manager.find(Photo)
-                allDeletedPhotos.length.should.be.equal(0)
+                expect(allDeletedPhotos.length).to.equal(0)
 
                 // and can be retrieved if we ask for them
                 const allPhotos = await dataSource.manager.find(Photo, {
                     withDeleted: true,
                 })
-                allPhotos.length.should.be.equal(2)
+                expect(allPhotos.length).to.equal(2)
 
                 // recover user..
                 await dataSource.manager.recover(user)
                 // photos should be recovered as well
                 const allRecoveredPhotos = await dataSource.manager.find(Photo)
-                allRecoveredPhotos.length.should.be.equal(2)
+                expect(allRecoveredPhotos.length).to.equal(2)
             }),
         ))
 
@@ -125,19 +125,19 @@ describe("cascades > soft-remove", () => {
                 await dataSource.manager.softRemove(user)
                 // sanity check photos are soft-removed
                 const allDeletedPhotos = await dataSource.manager.find(Photo)
-                allDeletedPhotos.length.should.be.equal(0)
+                expect(allDeletedPhotos.length).to.equal(0)
 
                 // and can be retrieved if we ask for them
                 const allPhotos = await dataSource.manager.find(Photo, {
                     withDeleted: true,
                 })
-                allPhotos.length.should.be.equal(1)
+                expect(allPhotos.length).to.equal(1)
 
                 // recover user..
                 await dataSource.manager.recover(user)
                 // photos should be recovered as well
                 const allRecoveredPhotos = await dataSource.manager.find(Photo)
-                allRecoveredPhotos.length.should.be.equal(2)
+                expect(allRecoveredPhotos.length).to.equal(2)
             }),
         ))
 })

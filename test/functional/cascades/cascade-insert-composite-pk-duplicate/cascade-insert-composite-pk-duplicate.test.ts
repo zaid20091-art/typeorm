@@ -6,7 +6,7 @@ import {
 } from "../../../utils/test-utils"
 import type { DataSource } from "../../../../src"
 
-import { assert } from "chai"
+import { expect } from "chai"
 
 import Post, { PostSchema } from "./entity/Post"
 import PostTag, { PostTagSchema } from "./entity/PostTag"
@@ -35,11 +35,7 @@ describe("cascades > insert with composite primary key duplicate constraint", ()
                 try {
                     await connection.manager.save(post)
                 } catch (e) {
-                    assert.fail(
-                        e.toString(),
-                        null,
-                        "Second save had an exception",
-                    )
+                    expect.fail("Second save had an exception: " + e.toString())
                 }
             }),
         ))
@@ -56,11 +52,7 @@ describe("cascades > insert with composite primary key duplicate constraint", ()
                 try {
                     await connection.manager.save(post)
                 } catch (e) {
-                    assert.fail(
-                        e.toString(),
-                        null,
-                        "Second save had an exception",
-                    )
+                    expect.fail("Second save had an exception: " + e.toString())
                 }
             }),
         ))
@@ -80,11 +72,7 @@ describe("cascades > insert with composite primary key duplicate constraint", ()
                 try {
                     await connection.manager.save(postTag)
                 } catch (e) {
-                    assert.fail(
-                        e.toString(),
-                        null,
-                        "Second save had an exception",
-                    )
+                    expect.fail("Second save had an exception: " + e.toString())
                 }
             }),
         ))
