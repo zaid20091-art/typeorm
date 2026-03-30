@@ -25,18 +25,19 @@ describe.skip("cascades > remove", () => {
             dataSources.map(async (dataSource) => {
                 await Photo.create({ name: "Photo #1" }).save()
 
-                const user = new User()
-                user.id = 1
-                user.name = "Mr. Cascade Danger"
-                user.manyPhotos = [
-                    Photo.create({ name: "one-to-many #1" }),
-                    Photo.create({ name: "one-to-many #2" }),
-                ]
-                user.manyToManyPhotos = [
-                    Photo.create({ name: "many-to-many #1" }),
-                    Photo.create({ name: "many-to-many #2" }),
-                    Photo.create({ name: "many-to-many #3" }),
-                ]
+                const user = User.create({
+                    id: 1,
+                    name: "Mr. Cascade Danger",
+                    manyPhotos: [
+                        Photo.create({ name: "one-to-many #1" }),
+                        Photo.create({ name: "one-to-many #2" }),
+                    ],
+                    manyToManyPhotos: [
+                        Photo.create({ name: "many-to-many #1" }),
+                        Photo.create({ name: "many-to-many #2" }),
+                        Photo.create({ name: "many-to-many #3" }),
+                    ],
+                })
                 await dataSource.manager.save(user)
 
                 const loadedUser = await dataSource.manager

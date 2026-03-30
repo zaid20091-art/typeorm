@@ -5,9 +5,10 @@ import { Photo } from "./Photo"
 import { OneToMany } from "../../../../../src/decorator/relations/OneToMany"
 import { JoinTable } from "../../../../../src/decorator/relations/JoinTable"
 import { Column } from "../../../../../src/decorator/columns/Column"
+import { BaseEntity } from "../../../../../src/repository/BaseEntity"
 
 @Entity()
-export class User {
+export class User extends BaseEntity {
     // todo: check one-to-one relation as well, but in another model or test
 
     @PrimaryColumn()
