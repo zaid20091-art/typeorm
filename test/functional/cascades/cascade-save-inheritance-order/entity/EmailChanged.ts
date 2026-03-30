@@ -1,8 +1,10 @@
 import { ChildEntity } from "../../../../../src/index"
+import { Change } from "./Change"
 import { ChangeLog } from "./ChangeLog"
 
-// STI child entity — no additional columns
-export class Email {}
+export interface Email {}
 
 @ChildEntity()
-export class EmailChanged extends ChangeLog<Email> {}
+export class EmailChanged extends ChangeLog<Email> {
+    declare changes: Change<Email>[]
+}
