@@ -10,7 +10,7 @@ import type { DataSource } from "../../../../src/data-source/DataSource"
 import { User } from "./entity/User"
 import { UserCredential } from "./entity/UserCredential"
 
-describe("cascades > insert from inverse one-to-one side", () => {
+describe("cascades > insert from inverse one-to-one side with shared primary key", () => {
     let dataSources: DataSource[]
     before(async () => {
         dataSources = await createTestingConnections({

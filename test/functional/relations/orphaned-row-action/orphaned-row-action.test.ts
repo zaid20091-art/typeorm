@@ -9,7 +9,7 @@ import {
 import { Category } from "./entity/Category"
 import { Post } from "./entity/Post"
 
-describe("cascades > orphaned row soft-delete", () => {
+describe("relations > orphaned row action soft-delete", () => {
     // -------------------------------------------------------------------------
     // Configuration
     // -------------------------------------------------------------------------

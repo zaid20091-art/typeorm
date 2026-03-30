@@ -17,7 +17,6 @@ describe("cascades > insert with composite primary key duplicate constraint", ()
     before(async () => {
         dataSources = await createTestingConnections({
             entities: [PostSchema, PostTagSchema, PostAttachmentSchema],
-            enabledDrivers: ["better-sqlite3"],
         })
     })
     beforeEach(() => reloadTestingDatabases(dataSources))

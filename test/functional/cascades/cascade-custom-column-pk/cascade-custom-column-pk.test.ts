@@ -19,8 +19,8 @@ describe("cascades > custom column primary key", () => {
     beforeEach(() => reloadTestingDatabases(dataSources))
     after(() => closeTestingConnections(dataSources))
 
-    describe("cascade update", function () {
-        it("should remove relation", () =>
+    describe("cascade insert with custom column name", function () {
+        it("should unlink relation without cascade remove", () =>
             Promise.all(
                 dataSources.map(async (dataSource) => {
                     // create first post and category and save them

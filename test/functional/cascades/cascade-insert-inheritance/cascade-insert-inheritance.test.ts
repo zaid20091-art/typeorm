@@ -15,7 +15,6 @@ describe("cascades > insert with table inheritance", () => {
     before(async () => {
         dataSources = await createTestingConnections({
             entities: [__dirname + "/entity/*{.js,.ts}"],
-            enabledDrivers: ["better-sqlite3"],
             schemaCreate: true,
             dropSchema: true,
         })

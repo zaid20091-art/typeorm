@@ -9,7 +9,7 @@ import { Post } from "./entity/Post"
 import { expect } from "chai"
 import { Category } from "./entity/Category"
 
-describe("cascades > cascade remove one-to-many", () => {
+describe("relations > on-delete cascade one-to-many", () => {
     let dataSources: DataSource[]
     before(async () => {
         dataSources = await createTestingConnections({
