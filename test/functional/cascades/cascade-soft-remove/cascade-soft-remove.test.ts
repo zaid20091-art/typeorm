@@ -1,3 +1,4 @@
+import { expect } from "chai"
 import "reflect-metadata"
 import {
     closeTestingConnections,
@@ -48,19 +49,20 @@ describe("cascades > soft-remove", () => {
                     )
                     .getOne()
 
-                loadedUser!.id.should.be.equal(1)
-                loadedUser!.name.should.be.equal("Mr. Cascade Danger")
+                expect(loadedUser).to.not.be.null
+                loadedUser?.id.should.be.equal(1)
+                loadedUser?.name.should.be.equal("Mr. Cascade Danger")
 
-                const manyPhotoNames = loadedUser!.manyPhotos.map(
+                const manyPhotoNames = (loadedUser?.manyPhotos ?? []).map(
                     (photo) => photo.name,
                 )
                 manyPhotoNames.length.should.be.equal(2)
                 manyPhotoNames.should.deep.include("one-to-many #1")
                 manyPhotoNames.should.deep.include("one-to-many #2")
 
-                const manyToManyPhotoNames = loadedUser!.manyToManyPhotos.map(
-                    (photo) => photo.name,
-                )
+                const manyToManyPhotoNames = (
+                    loadedUser?.manyToManyPhotos ?? []
+                ).map((photo) => photo.name)
                 manyToManyPhotoNames.length.should.be.equal(3)
                 manyToManyPhotoNames.should.deep.include("many-to-many #1")
                 manyToManyPhotoNames.should.deep.include("many-to-many #2")

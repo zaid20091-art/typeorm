@@ -51,7 +51,6 @@ export class Message {
                 recipient.message = this
             })
             this.recipients = recipients
-            // this.recipients = recipients.map(recipient => (new Recipient({...recipient, message: this})));
         }
         if (holders) {
             this.holders = holders

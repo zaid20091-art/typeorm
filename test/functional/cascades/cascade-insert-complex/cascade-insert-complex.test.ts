@@ -1,3 +1,4 @@
+import { expect } from "chai"
 import "reflect-metadata"
 import {
     closeTestingConnections,
@@ -51,7 +52,8 @@ describe("cascades > insert complex", () => {
                     .leftJoinAndSelect("answerUser.question", "userQuestion")
                     .getOne()
 
-                loadedQuestion!.should.be.eql({
+                expect(loadedQuestion).to.not.be.null
+                loadedQuestion?.should.be.eql({
                     id: 1,
                     name: "My question",
                     answers: [

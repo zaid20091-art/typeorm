@@ -44,11 +44,8 @@ describe.skip("cascades > save insert vs update", () => {
 
                 await connection.manager.save(main1)
 
-                // console.dir(main1, { colors: true, depth: null });
-
                 main1.dataModel[0].active = false
                 await connection.manager.save(main1)
-                // console.dir(main1, { colors: true, depth: null });
 
                 return true
             }),

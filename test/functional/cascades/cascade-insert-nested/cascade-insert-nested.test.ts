@@ -1,3 +1,4 @@
+import { expect } from "chai"
 import "reflect-metadata"
 import {
     closeTestingConnections,
@@ -45,7 +46,8 @@ describe("cascades > insert nested", () => {
                     .leftJoinAndSelect("profile.user", "profileUser")
                     .getOne()
 
-                loadedUser!.should.be.eql({
+                expect(loadedUser).to.not.be.null
+                loadedUser?.should.be.eql({
                     id: 1,
                     name: "Umed",
                     profile: {

@@ -1,3 +1,4 @@
+import { expect } from "chai"
 import "reflect-metadata"
 import "../../../utils/test-setup"
 import {
@@ -54,7 +55,8 @@ describe("cascades > insert from inverse one-to-one side", () => {
                         },
                     },
                 )
-                loadedCredentials!.should.be.eql({
+                expect(loadedCredentials).to.not.be.null
+                loadedCredentials?.should.be.eql({
                     id: 2,
                     user: {
                         id: 2,
