@@ -1,4 +1,4 @@
-import { Column, PrimaryColumn, ManyToOne, Entity } from "../../../../src"
+import { Column, PrimaryColumn, ManyToOne, Entity } from "../../../../../src"
 
 import { User } from "./User"
 import { Photo } from "./Photo"

@@ -1,4 +1,4 @@
-import { Column, ChildEntity } from "../../../../src"
+import { Column, ChildEntity } from "../../../../../src"
 
 import { User } from "./User"
 

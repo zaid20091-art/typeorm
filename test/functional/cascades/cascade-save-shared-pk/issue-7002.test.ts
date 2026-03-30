@@ -1,16 +1,16 @@
 import "reflect-metadata"
-import type { DataSource } from "../../../src/data-source/DataSource"
+import type { DataSource } from "../../../../src/data-source/DataSource"
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
-} from "../../utils/test-utils"
+} from "../../../utils/test-utils"
 import { Bar } from "./entity/Bar"
 import { Foo } from "./entity/Foo"
 
 // TODO: this test was broken after removing primary: true from relation decorators
 //  due to complexity of cascades, it was skipped fow now
-describe.skip("github issues > #7002 cascade save fails if the child entity has CreateDateColumn and PK as JoinColumn", () => {
+describe.skip("cascades > save with shared primary key", () => {
     let dataSources: DataSource[]
     before(async () => {
         dataSources = await createTestingConnections({

@@ -5,7 +5,7 @@ import {
     JoinColumn,
     OneToOne,
     PrimaryColumn,
-} from "../../../../src"
+} from "../../../../../src"
 import { Bar } from "./Bar"
 
 @Entity()

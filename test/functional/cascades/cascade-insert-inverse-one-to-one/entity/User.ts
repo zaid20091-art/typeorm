@@ -1,18 +1,22 @@
 import { Entity } from "../../../../../src/decorator/entity/Entity"
 import { PrimaryGeneratedColumn } from "../../../../../src/decorator/columns/PrimaryGeneratedColumn"
-import { ManyToOne } from "../../../../../src/decorator/relations/ManyToOne"
-import { User } from "./User"
+import { Index } from "../../../../../src/decorator/Index"
 import { Column } from "../../../../../src/decorator/columns/Column"
-import { BaseEntity } from "../../../../../src/repository/BaseEntity"
 
 @Entity()
-export class Photo extends BaseEntity {
+export class User {
     @PrimaryGeneratedColumn()
     id: number
 
     @Column()
-    name: string
+    @Index()
+    email: string
 
-    @ManyToOne(() => User, (user) => user.manyPhotos)
-    user: User
+    @Column()
+    @Index()
+    username: string
+
+    @Column()
+    @Index()
+    privilege: number
 }

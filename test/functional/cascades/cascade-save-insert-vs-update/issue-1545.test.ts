@@ -1,18 +1,18 @@
 import "reflect-metadata"
-import "../../utils/test-setup"
-import type { DataSource } from "../../../src/data-source/DataSource"
+import "../../../utils/test-setup"
+import type { DataSource } from "../../../../src/data-source/DataSource"
 import {
     createTestingConnections,
     reloadTestingDatabases,
     closeTestingConnections,
-} from "../../utils/test-utils"
+} from "../../../utils/test-utils"
 import { ValidationModel } from "./entity/ValidationModel"
 import { MainModel } from "./entity/MainModel"
 import { DataModel } from "./entity/DataModel"
 
 // TODO: this test was broken after removing primary: true from relation decorators
 //  due to complexity of cascades, it was skipped fow now
-describe.skip("github issues > #1545 Typeorm runs insert query instead of update query on save of existing entity for ManyToOne relationships", () => {
+describe.skip("cascades > save insert vs update", () => {
     let dataSources: DataSource[]
     before(async () => {
         dataSources = await createTestingConnections({

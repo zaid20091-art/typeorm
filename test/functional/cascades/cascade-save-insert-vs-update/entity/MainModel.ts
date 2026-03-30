@@ -2,7 +2,7 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     OneToMany,
-} from "../../../../src/index"
+} from "../../../../../src/index"
 import { DataModel } from "./DataModel"
 
 @Entity()

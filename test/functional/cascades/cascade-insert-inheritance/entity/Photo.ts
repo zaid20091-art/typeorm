@@ -1,23 +1,21 @@
 import {
+    OneToMany,
     Entity,
     PrimaryGeneratedColumn,
-    OneToMany,
     Column,
-    TableInheritance,
-} from "../../../../src"
+} from "../../../../../src"
 
 import { UserPhoto } from "./UserPhoto"
 
 @Entity()
-@TableInheritance({ column: { type: "varchar", name: "type" } })
-export class User {
+export class Photo {
     @PrimaryGeneratedColumn()
     id: number
 
     @Column()
     name: string
 
-    @OneToMany(() => UserPhoto, (userPhoto) => userPhoto.user, {
+    @OneToMany(() => UserPhoto, (userPhoto) => userPhoto.photo, {
         cascade: true,
     })
     userPhotos: UserPhoto[]

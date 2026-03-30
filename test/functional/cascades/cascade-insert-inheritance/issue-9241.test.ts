@@ -4,13 +4,13 @@ import {
     createTestingConnections,
     closeTestingConnections,
     reloadTestingDatabases,
-} from "../../utils/test-utils"
-import type { DataSource, DeepPartial } from "../../../src"
+} from "../../../utils/test-utils"
+import type { DataSource, DeepPartial } from "../../../../src"
 
 import { Employee } from "./entity/Employee"
 import { Photo } from "./entity/Photo"
 
-describe("github issues > #9241 Incorrect insert order when cascade inserting parent inherited relations", () => {
+describe("cascades > insert with table inheritance", () => {
     let dataSources: DataSource[]
     before(async () => {
         dataSources = await createTestingConnections({

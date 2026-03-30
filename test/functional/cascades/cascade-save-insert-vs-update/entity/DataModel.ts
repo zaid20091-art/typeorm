@@ -4,7 +4,7 @@ import {
     JoinColumn,
     ManyToOne,
     PrimaryColumn,
-} from "../../../../src/index"
+} from "../../../../../src/index"
 import { MainModel } from "./MainModel"
 import { ValidationModel } from "./ValidationModel"
 

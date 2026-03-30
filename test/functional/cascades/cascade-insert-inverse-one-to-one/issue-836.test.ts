@@ -1,15 +1,15 @@
 import "reflect-metadata"
-import "../../utils/test-setup"
+import "../../../utils/test-setup"
 import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
-} from "../../utils/test-utils"
-import type { DataSource } from "../../../src/data-source/DataSource"
+} from "../../../utils/test-utils"
+import type { DataSource } from "../../../../src/data-source/DataSource"
 import { User } from "./entity/User"
 import { UserCredential } from "./entity/UserCredential"
 
-describe("github issues > #836 .save won't update entity when it contains OneToOne relationship", () => {
+describe("cascades > insert from inverse one-to-one side", () => {
     let dataSources: DataSource[]
     before(async () => {
         dataSources = await createTestingConnections({

@@ -3,7 +3,7 @@ import {
     Entity,
     ManyToOne,
     PrimaryColumn,
-} from "../../../../src/index"
+} from "../../../../../src/index"
 import { Message } from "./Message"
 import { User } from "./User"
 

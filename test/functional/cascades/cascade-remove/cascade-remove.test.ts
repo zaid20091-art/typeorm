@@ -23,19 +23,19 @@ describe.skip("cascades > remove", () => {
     it("should remove everything by cascades properly", () =>
         Promise.all(
             dataSources.map(async (dataSource) => {
-                await dataSource.manager.save(new Photo("Photo #1"))
+                await Photo.create({ name: "Photo #1" }).save()
 
                 const user = new User()
                 user.id = 1
                 user.name = "Mr. Cascade Danger"
                 user.manyPhotos = [
-                    new Photo("one-to-many #1"),
-                    new Photo("one-to-many #2"),
+                    Photo.create({ name: "one-to-many #1" }),
+                    Photo.create({ name: "one-to-many #2" }),
                 ]
                 user.manyToManyPhotos = [
-                    new Photo("many-to-many #1"),
-                    new Photo("many-to-many #2"),
-                    new Photo("many-to-many #3"),
+                    Photo.create({ name: "many-to-many #1" }),
+                    Photo.create({ name: "many-to-many #2" }),
+                    Photo.create({ name: "many-to-many #3" }),
                 ]
                 await dataSource.manager.save(user)
 
