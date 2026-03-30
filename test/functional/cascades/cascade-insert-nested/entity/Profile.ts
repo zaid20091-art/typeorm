@@ -1,9 +1,9 @@
-import { Entity } from "../../../../../../src/decorator/entity/Entity"
+import { Entity } from "../../../../../src/decorator/entity/Entity"
 import { User } from "./User"
 import { Photo } from "./Photo"
-import { OneToOne } from "../../../../../../src/decorator/relations/OneToOne"
-import { JoinColumn } from "../../../../../../src/decorator/relations/JoinColumn"
-import { PrimaryColumn } from "../../../../../../src"
+import { OneToOne } from "../../../../../src/decorator/relations/OneToOne"
+import { JoinColumn } from "../../../../../src/decorator/relations/JoinColumn"
+import { PrimaryColumn } from "../../../../../src"
 
 @Entity()
 export class Profile {

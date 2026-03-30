@@ -3,13 +3,13 @@ import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
-} from "../../../../utils/test-utils"
-import type { DataSource } from "../../../../../src/data-source/DataSource"
+} from "../../../utils/test-utils"
+import type { DataSource } from "../../../../src/data-source/DataSource"
 import { Photo } from "./entity/Photo"
 import { User } from "./entity/User"
 
 // todo: fix later
-describe.skip("persistence > cascades > remove", () => {
+describe.skip("cascades > remove", () => {
     let dataSources: DataSource[]
     before(async () => {
         dataSources = await createTestingConnections({

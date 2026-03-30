@@ -3,13 +3,13 @@ import {
     closeTestingConnections,
     createTestingConnections,
     reloadTestingDatabases,
-} from "../../../../utils/test-utils"
-import type { DataSource } from "../../../../../src/data-source/DataSource"
+} from "../../../utils/test-utils"
+import type { DataSource } from "../../../../src/data-source/DataSource"
 import { Profile } from "./entity/Profile"
 import { Photo } from "./entity/Photo"
 import { User } from "./entity/User"
 
-describe("persistence > cascades > example 1", () => {
+describe("cascades > insert nested", () => {
     let dataSources: DataSource[]
     before(async () => {
         dataSources = await createTestingConnections({
