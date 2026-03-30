@@ -8,7 +8,7 @@ import type { Post } from "./entity/Post-Succeed"
 describe("mssql -> add column to existing table", () => {
     let dataSources: DataSource[]
 
-    before(async () => {
+    beforeEach(async () => {
         dataSources = await createTestingConnections({
             enabledDrivers: ["mssql"],
             entities: [__dirname + "/entity/Post{.js,.ts}"],

@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import type { DataSource } from "../../../src"
+import type { DataSource, QueryRunner } from "../../../src"
 import {
     closeTestingConnections,
     createTestingConnections,
@@ -9,6 +9,7 @@ import { Comment } from "./entities"
 
 describe("github issues > #5919 Caching won't work with replication enabled", () => {
     let dataSources: DataSource[]
+    const queryRunners: QueryRunner[] = []
 
     before(async () => {
         dataSources = await createTestingConnections({
@@ -20,6 +21,11 @@ describe("github issues > #5919 Caching won't work with replication enabled", ()
         })
     })
     beforeEach(() => reloadTestingDatabases(dataSources))
+    afterEach(async () => {
+        for (const qr of queryRunners.splice(0)) {
+            await qr.release()
+        }
+    })
     after(() => closeTestingConnections(dataSources))
 
     it("should use cache with a master query runner", () =>
@@ -30,35 +36,29 @@ describe("github issues > #5919 Caching won't work with replication enabled", ()
                 await dataSource.manager.save(comment1)
 
                 const masterQueryRunner = dataSource.createQueryRunner("master")
+                queryRunners.push(masterQueryRunner)
 
-                try {
-                    // first query — populates cache
-                    const results1 = await dataSource
-                        .createQueryBuilder()
-                        .from(Comment, "c")
-                        .cache(true)
-                        .setQueryRunner(masterQueryRunner)
-                        .getRawMany()
+                const results1 = await dataSource
+                    .createQueryBuilder()
+                    .from(Comment, "c")
+                    .cache(60_000)
+                    .setQueryRunner(masterQueryRunner)
+                    .getRawMany()
 
-                    expect(results1.length).to.equal(1)
+                expect(results1.length).to.equal(1)
 
-                    // insert another record
-                    const comment2 = new Comment()
-                    comment2.text = "second"
-                    await dataSource.manager.save(comment2)
+                const comment2 = new Comment()
+                comment2.text = "second"
+                await dataSource.manager.save(comment2)
 
-                    // second query — should return cached result (stale)
-                    const results2 = await dataSource
-                        .createQueryBuilder()
-                        .from(Comment, "c")
-                        .cache(true)
-                        .setQueryRunner(masterQueryRunner)
-                        .getRawMany()
+                const results2 = await dataSource
+                    .createQueryBuilder()
+                    .from(Comment, "c")
+                    .cache(60_000)
+                    .setQueryRunner(masterQueryRunner)
+                    .getRawMany()
 
-                    expect(results2.length).to.equal(1)
-                } finally {
-                    await masterQueryRunner.release()
-                }
+                expect(results2.length).to.equal(1)
             }),
         ))
 
@@ -70,35 +70,29 @@ describe("github issues > #5919 Caching won't work with replication enabled", ()
                 await dataSource.manager.save(comment1)
 
                 const slaveQueryRunner = dataSource.createQueryRunner("slave")
+                queryRunners.push(slaveQueryRunner)
 
-                try {
-                    // first query — populates cache
-                    const results1 = await dataSource
-                        .createQueryBuilder()
-                        .from(Comment, "c")
-                        .cache(true)
-                        .setQueryRunner(slaveQueryRunner)
-                        .getRawMany()
+                const results1 = await dataSource
+                    .createQueryBuilder()
+                    .from(Comment, "c")
+                    .cache(60_000)
+                    .setQueryRunner(slaveQueryRunner)
+                    .getRawMany()
 
-                    expect(results1.length).to.equal(1)
+                expect(results1.length).to.equal(1)
 
-                    // insert another record
-                    const comment2 = new Comment()
-                    comment2.text = "second"
-                    await dataSource.manager.save(comment2)
+                const comment2 = new Comment()
+                comment2.text = "second"
+                await dataSource.manager.save(comment2)
 
-                    // second query — should return cached result (stale)
-                    const results2 = await dataSource
-                        .createQueryBuilder()
-                        .from(Comment, "c")
-                        .cache(true)
-                        .setQueryRunner(slaveQueryRunner)
-                        .getRawMany()
+                const results2 = await dataSource
+                    .createQueryBuilder()
+                    .from(Comment, "c")
+                    .cache(60_000)
+                    .setQueryRunner(slaveQueryRunner)
+                    .getRawMany()
 
-                    expect(results2.length).to.equal(1)
-                } finally {
-                    await slaveQueryRunner.release()
-                }
+                expect(results2.length).to.equal(1)
             }),
         ))
 })
